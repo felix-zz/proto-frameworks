@@ -23,7 +23,6 @@ window.onkeydown = (e: KeyboardEvent) => {
     }
 };
 
-
 interface FrameworkProps {
     defaultProduct?: string;
     pageTree: StringMap<PageNode>;
@@ -40,7 +39,7 @@ interface FrameworkState {
     historyVisible?: boolean;
 }
 
-export class Framework extends Component<FrameworkProps, FrameworkState> {
+class Framework extends Component<FrameworkProps, FrameworkState> {
 
     constructor(props: FrameworkProps) {
         super(props);
@@ -221,7 +220,7 @@ export class Framework extends Component<FrameworkProps, FrameworkState> {
         });
         const curProduct = pageTree[currentProduct];
         return (
-            <div className='framework'>
+            <div className='proto-frameworks'>
                 <div className='framework-head'>
                     <Util.A className='icon right-margin-lg text-dark'
                             onClick={() => {
@@ -293,7 +292,7 @@ interface ProtoFrameworksProps {
 interface ProtoFrameworksState {
 }
 
-export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFrameworksState> {
+export default class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFrameworksState> {
     constructor(props: ProtoFrameworksProps) {
         super(props);
     }
