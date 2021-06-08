@@ -1,43 +1,39 @@
 {
   "name": "proto-frameworks",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@ant-design/icons": "^4.6.2",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "react-modal": "^3.14.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.5",
+    "@types/lodash": "^4.14.170",
+    "@types/moment": "^2.13.0",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "@types/react-modal": "^3.12.0",
+    "@types/react-router": "^5.1.14",
+    "@types/react-router-dom": "^5.1.7",
+    "less": "^4.1.1",
+    "typescript": "^4.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "tsc && lessc src/proto-frameworks.less dist/proto-frameworks.css"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:felix-zz/proto-frameworks.git",
+  "author": "赵震 <zhaoz@servyou.com.cn>",
+  "license": "MIT"
 }
