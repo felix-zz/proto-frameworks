@@ -1,9 +1,5 @@
 import React, {Component, ComponentType, ReactNode} from 'react';
 import {HashRouter, Link, Route, useLocation} from 'react-router-dom';
-import {VersionInfo} from './versions';
-import {Util} from '../util/util';
-import {StringMap} from '../util/string_map';
-import {PageNode} from './page_def';
 import Modal from 'react-modal';
 import * as _ from 'lodash';
 import {
@@ -13,7 +9,11 @@ import {
     MinusSquareOutlined,
     PlusSquareOutlined
 } from '@ant-design/icons';
-import VersionContext from './versioned_comment';
+import {StringMap} from './util/string_map';
+import {VersionInfo} from './components/versions';
+import {PageNode} from './components/page_def';
+import {Util} from './util/util';
+import VersionContext from './components/versioned_comment';
 
 let toggleSizingMode: (on?: boolean) => void = null;
 
