@@ -43,7 +43,8 @@ const ignoreOf = (
     missing?: (string | CssChecker)[]): CssChecker => {
     let ignoreFunc: IgnoreFunc = null;
     if (typeof ignore === 'string') {
-        ignoreFunc = v => !!v && v.indexOf(ignore as string) >= 0;
+        const ignoreStr: string = ignore as string;
+        ignoreFunc = v => !!v && v.indexOf(ignoreStr) >= 0;
     } else if (ignore instanceof RegExp) {
         ignoreFunc = v => !!v && ignore.test(v);
     } else if (ignore) {

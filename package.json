@@ -28,13 +28,18 @@
   },
   "scripts": {
     "build": "tsc && lessc src/proto-frameworks.less dist/proto-frameworks.css",
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "eject": "react-scripts eject"
   },
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "repository": "git@github.com:felix-zz/proto-frameworks.git",
   "author": "赵震 <zhaoz@servyou.com.cn>",
   "license": "MIT",

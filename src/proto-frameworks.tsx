@@ -1,5 +1,5 @@
 import React, {Component, ComponentType, ReactNode} from 'react';
-import {HashRouter, Link, Route, useLocation} from 'react-router-dom';
+import {HashRouter, Link, Route} from 'react-router-dom';
 import Modal from 'react-modal';
 import * as _ from 'lodash';
 import {
@@ -14,6 +14,7 @@ import {VersionInfo} from './components/versions';
 import {PageNode} from './components/page_def';
 import {Util} from './util/util';
 import VersionContext from './components/versioned_comment';
+import {RouteComponentProps} from 'react-router';
 
 let toggleSizingMode: (on?: boolean) => void = null;
 
@@ -23,7 +24,7 @@ window.onkeydown = (e: KeyboardEvent) => {
     }
 };
 
-interface FrameworkProps {
+interface FrameworkProps extends RouteComponentProps {
     defaultProduct?: string;
     pageTree: StringMap<PageNode>;
     historyVersions: VersionInfo[];
@@ -56,7 +57,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
     }
 
     getCurrentProduct = (): string => {
-        let location: string = useLocation().pathname;
+        let location: string = this.props.location.pathname;
         const {defaultProduct, pageTree} = this.props;
         if (!location || location.length <= 2) {
             return defaultProduct;
@@ -299,12 +300,14 @@ export default class ProtoFrameworks extends Component<ProtoFrameworksProps, Pro
 
     renderPage(Element: ComponentType, navBar: ReactNode, elementProps: StringMap<any>) {
         const {currentVersion, pageTree, defaultProduct, historyVersions} = this.props;
-        return (props: StringMap<any>) => {
+        return (props: RouteComponentProps<StringMap<any>>) => {
             const pageKey = _.get(window, 'location.search') || '#' + _.get(window, 'location.hash');
+            let finalProps: StringMap<any> = _.assign({}, elementProps, props);
             return (
                 <Framework key={pageKey} navBar={navBar} currentVersion={currentVersion} pageTree={pageTree}
-                           defaultProduct={defaultProduct} historyVersions={historyVersions}>
-                    <Element {...(_.assign({}, elementProps, props))}/>
+                           defaultProduct={defaultProduct} historyVersions={historyVersions}
+                           {...props}>
+                    <Element {...finalProps}/>
                 </Framework>
             );
         };
