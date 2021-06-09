@@ -1,0 +1,238 @@
+$proto-fw-bg-base: #f0f2f5;
+$proto-fw-border-base: #ccc;
+$proto-fw-border-split: #e8e8e8;
+$proto-fw-primary-color: #0aa6d0;
+
+$proto-fw-sidebar-width: 180px;
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.proto-frameworks {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  font-size: 12px;
+  color: #333;
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  }
+
+  &.framework-head {
+    position: fixed;
+    height: 30px;
+    background-color: $proto-fw-bg-base;
+    border-bottom: 1px solid $proto-fw-border-split;
+    width: 100%;
+    line-height: 30px;
+    z-index: 900;
+
+    input[type="checkbox"] {
+      vertical-align: middle;
+    }
+
+    a {
+      display: inline-block;
+    }
+
+    .icon {
+      width: 25px;
+      text-align: center;
+    }
+  }
+
+  &.framework-sidebar {
+    position: fixed;
+    top: 40px;
+    bottom: 10px;
+    left: 10px;
+    width: $proto-fw-sidebar-width;
+    background-color: $proto-fw-bg-base;
+    border: 1px solid $proto-fw-border-split;
+    padding: 10px 0;
+    overflow: auto;
+    z-index: 900;
+  }
+
+
+  .selected-item {
+    background: $proto-fw-primary-color;
+    color: #fff !important;
+  }
+
+  .framework-menu-item {
+    padding: 1px 5px;
+
+    .icon-op {
+      width: 18px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    &.active {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  $comment-color: #5a7;
+  $comment-color-active: #a6c;
+  $comment-border: 1px dashed $comment-color;
+  $comment-border-active: 1px solid $comment-color-active;
+
+  .comment-border-left {
+    border-left: $comment-border;
+
+    &.active {
+      border-left: $comment-border-active;
+    }
+  }
+
+  .style-line-ver {
+    border-left: $comment-border;
+    position: absolute;
+    z-index: 700;
+    width: 0;
+
+    &.active {
+      border-left: $comment-border-active;
+    }
+  }
+
+  .style-line-hor {
+    border-top: $comment-border;
+    position: absolute;
+    z-index: 700;
+    height: 0;
+
+    &.active {
+      border-top: $comment-border-active;
+    }
+  }
+
+  .comment-border-right {
+    border-right: $comment-border;
+
+    &.active {
+      border-right: $comment-border-active;
+    }
+  }
+
+  .comment-border-top {
+    border-top: $comment-border;
+
+    &.active {
+      border-top: $comment-border-active
+    }
+  }
+
+  .comment-border-bottom {
+    border-bottom: $comment-border;
+
+    &.active {
+      border-top: $comment-border-active;
+      border-bottom: $comment-border-active;
+    }
+  }
+
+  .comment-border {
+    border: $comment-border;
+
+    &.active {
+      border: $comment-border-active;
+    }
+  }
+
+  .comment-bg {
+    background-color: fade-out($comment-color, 0.85);
+
+    &.active {
+      background-color: fade-out($comment-color-active, 0.85);
+    }
+  }
+
+  .comment-color {
+    color: $comment-color;
+
+    &.active {
+      color: $comment-color-active;
+    }
+  }
+
+  .comment-sticker {
+    position: absolute;
+    z-index: 750;
+    border: 1px solid #cb0;
+    background-color: fade-out(#ffe, 0.05);
+    padding: 5px 15px 5px 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
+
+    .comment-color {
+      color: #cb0;
+
+      &.active {
+        color: #cb0;
+      }
+    }
+
+    .sticker-close {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      line-height: 15px;
+      text-align: center;
+    }
+  }
+
+  a {
+    color: $proto-fw-primary-color;
+    text-decoration: none;
+
+    .anticon:first-child {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      color: lighten($proto-fw-primary-color, 12%);
+    }
+  }
+
+  .text-primary {
+    color: $proto-fw-primary-color;
+  }
+
+  .text-dark {
+    color: #666;
+  }
+
+  $directions: [top, right, bottom, left];
+  $sizes: (xs: 4px, sm: 8px, md: 16px, lg: 24px);
+
+  @each $dir in $directions {
+    @each $size, $val in $sizes {
+      @if $size == md {
+        .#{$dir}-margin {
+          margin-#{$dir}: $val;
+        }
+      } @else {
+        .#{$dir}-margin-#{$size} {
+          margin-#{$dir}: $val;
+        }
+      }
+    }
+  }
+}
+
+.proto-frameworks-body {
+  padding-top: 30px;
+  padding-left: $proto-fw-sidebar-width + 20px;
+
+  &.sidebar-hidden {
+    padding-left: 0;
+  }
+}

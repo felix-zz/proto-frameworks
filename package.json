@@ -22,12 +22,14 @@
     "@types/react-modal": "^3.12.0",
     "@types/react-router": "^5.1.14",
     "@types/react-router-dom": "^5.1.7",
-    "less": "^4.1.1",
+    "node-sass": "^6.0.0",
     "react-scripts": "^4.0.3",
+    "sass": "^1.34.1",
+    "scss": "^0.2.4",
     "typescript": "^4.3.2"
   },
   "scripts": {
-    "build": "tsc && lessc src/proto-frameworks.less dist/proto-frameworks.css",
+    "build": "tsc && sass src/proto-frameworks.scss dist/proto-frameworks.css",
     "start": "react-scripts start",
     "eject": "react-scripts eject"
   },

@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import {Component} from 'react';
 import ProtoFrameworks from './proto-frameworks';
-import './proto-frameworks.less';
+import './proto-frameworks.scss';
 
 interface DemoIndexProps {
 }
@@ -20,6 +20,7 @@ export class DemoIndex extends Component<DemoIndexProps, DemoIndexState> {
                              pageTree={{
                                  demo: {
                                      name: 'Demo Product',
+                                     ver: 'v202106',
                                      pages: {
                                          demoModule: {
                                              name: 'Demo Module',

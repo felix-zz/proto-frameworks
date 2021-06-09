@@ -27,7 +27,7 @@ class A extends React.Component<AProps, {}> {
             }
         }
         delete props.icon;
-        return (<a {...props}>{icon}{!!icon && ' '}{this.props.children}</a>);
+        return (<a {...props}>{icon}{this.props.children}</a>);
     }
 }
 

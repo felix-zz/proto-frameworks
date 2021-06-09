@@ -7,7 +7,8 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     MinusSquareOutlined,
-    PlusSquareOutlined
+    PlusSquareOutlined,
+    UnorderedListOutlined
 } from '@ant-design/icons';
 import {StringMap} from './util/string_map';
 import {VersionInfo} from './components/versions';
@@ -102,7 +103,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
         const versions = filteredVersions ? filteredVersions : this.props.historyVersions;
         return (
             <React.Fragment>
-                <Util.A icon='unordered-list' className='left-margin' onClick={showHistories}
+                <Util.A icon={<UnorderedListOutlined/>} className='left-margin' onClick={showHistories}
                         style={{fontSize: '12px'}}>
                     历史版本
                 </Util.A>
@@ -221,25 +222,33 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
         });
         const curProduct = pageTree[currentProduct];
         return (
-            <div className='proto-frameworks'>
-                <div className='framework-head'>
-                    <Util.A className='icon right-margin-lg text-dark'
+            <React.Fragment>
+                <div className='proto-frameworks framework-head'>
+                    <Util.A className='icon text-dark'
                             onClick={() => {
                                 sessionStorage.setItem('sidebarHidden', (!sidebarHidden).toString());
                                 this.setState({sidebarHidden: !sidebarHidden});
                             }}>
                         {sidebarHidden ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                     </Util.A>
-                    {products}
-                    <input type='checkbox' checked={versionRelated}
-                           onChange={e => {
-                               sessionStorage.setItem('versionRelated', e.target.checked.toString());
-                               this.setState({versionRelated: e.target.checked});
-                           }}/>
-                    只显示{' ' + currentVersion + ' '}相关页面
-                    <input type='checkbox' checked={sizeMode} className='left-margin'
-                           onChange={e => this.toggleSizingMode(!!e.target.checked)}/>
-                    度量模式{' ⇧E'}
+                    {!!products && !!products.length && (
+                        <span style={{fontSize: '14px'}} className='left-margin'>
+                            {products}
+                        </span>
+                    )}
+                    <label className='left-margin'>
+                        <input type='checkbox' checked={versionRelated}
+                               onChange={e => {
+                                   sessionStorage.setItem('versionRelated', e.target.checked.toString());
+                                   this.setState({versionRelated: e.target.checked});
+                               }}/>
+                        只显示{' ' + currentVersion + ' '}相关页面
+                    </label>
+                    <label className='left-margin'>
+                        <input type='checkbox' checked={sizeMode}
+                               onChange={e => this.toggleSizingMode(!!e.target.checked)}/>
+                        度量模式{' ⇧E'}
+                    </label>
                     <Link className='left-margin' to='/' style={{fontSize: '12px'}}>
                         <FontSizeOutlined className='right-margin-xs'/>
                         设计规范
@@ -247,17 +256,17 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                     {this.renderVersionHistory()}
                 </div>
                 {!sidebarHidden && (
-                    <div className='framework-sidebar'>
+                    <div className='proto-frameworks framework-sidebar'>
                         {this.renderSubMenu(curProduct.pages, '/' + currentProduct, 0, currentHash)}
                     </div>
                 )}
-                <div className={'framework-body ' + (sidebarHidden ? 'sidebar-hidden' : '')}>
+                <div className={'proto-frameworks-body ' + (sidebarHidden ? 'sidebar-hidden' : '')}>
                     {this.props.navBar || null}
                     <VersionContext sizeMode={sizeMode} currentVersion={currentVersion}>
                         {this.props.children}
                     </VersionContext>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }
