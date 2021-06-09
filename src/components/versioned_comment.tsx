@@ -375,7 +375,7 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
                 }
             }}>
                 {!sizeMode && (!!leftComments && !!leftComments.length) && (
-                    <div style={{display: 'table-cell', padding: '10px'}}>
+                    <div className='proto-frameworks' style={{display: 'table-cell', padding: '10px'}}>
                         {leftComments.map((c, i) => (
                             <React.Fragment key={i}>
                                 <CommentContent {...c}/>
@@ -390,7 +390,7 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
                     </CommentContext.Provider>
                 </div>
                 {!sizeMode && (!!rightComments && !!rightComments.length) && (
-                    <div style={{display: 'table-cell', padding: '10px'}}>
+                    <div className='proto-frameworks' style={{display: 'table-cell', padding: '10px'}}>
                         {rightComments.map((c, i) => (
                             <React.Fragment key={i}>
                                 <CommentContent {...c}/>

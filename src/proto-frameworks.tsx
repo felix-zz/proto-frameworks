@@ -16,8 +16,11 @@ import {PageNode} from './components/page_def';
 import {Util} from './util/util';
 import VersionContext from './components/versioned_comment';
 import {RouteComponentProps} from 'react-router';
+import InnerModal from './components/inner_modal';
 
 let toggleSizingMode: (on?: boolean) => void = null;
+
+Modal.setAppElement('body');
 
 window.onkeydown = (e: KeyboardEvent) => {
     if (e.shiftKey && _.toLower(e.key) === 'e' && toggleSizingMode) {
@@ -85,10 +88,10 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
         const {historyVersions} = this.props;
         const versions = historyVersions;
         const matches = (str: string) => !str ? false : _.toLower(str).indexOf(query) >= 0;
-        let filtered = versions.filter(version => (
+        let filtered = versions ? versions.filter(version => (
             !query ? true : matches(version.version) ||
                 (typeof version.description === 'string' && matches(version.description))
-        ));
+        )) : [];
         this.setState({filteredVersions: filtered});
     }
 
@@ -107,8 +110,8 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                         style={{fontSize: '12px'}}>
                     历史版本
                 </Util.A>
-                <Modal isOpen={!!historyVisible} onRequestClose={closeHistories}
-                       style={{overlay: {top: '15px', width: '650px'}}}>
+                <InnerModal display={!!historyVisible} onClose={closeHistories}
+                            style={{top: '15px', width: '650px'}} title='历史版本'>
                     <div>
                         <input style={{width: '300px'}}
                                onChange={e => this.searchVersion(e.target.value)}
@@ -133,7 +136,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                             </div>
                         )
                     })}
-                </Modal>
+                </InnerModal>
             </React.Fragment>
         );
     }
@@ -332,17 +335,20 @@ export default class ProtoFrameworks extends Component<ProtoFrameworksProps, Pro
             if (nav && nav.items && nav.items.length) {
                 const {defaultTitle, items} = nav;
                 navBar = (index: number): ReactNode => (
-                    <div>
+                    <div className='proto-frameworks'>
                         <span className='comment-border top-margin-sm bottom-margin-sm' style={{
                             padding: '4px 8px', fontSize: '14px', display: 'inline-block',
                         }}>
                             <strong>该页面有多个状态，请查看：</strong>
                             {!index ? defaultTitle : <Link to={path}>{defaultTitle}</Link>}
                             {items.map((item, i) => {
-                                const title = item.ver === currentVersion ? item.name : item.name + '(本期无变化)';
+                                const title = item.ver === currentVersion ? item.name : item.name + ' (本期无变化)';
                                 return (
-                                    <span key={i}>
-                                        {Util.opDivider()}
+                                    <span key={i.toString()}>
+                                        <span style={{color: 'rgba(0, 0, 0, 0.1)'}}
+                                              className='left-margin-sm right-margin-sm'>
+                                            |
+                                        </span>
                                         {index === i + 1 ? title : <Link to={path + '/' + i}>{title}</Link>}
                                     </span>
                                 );

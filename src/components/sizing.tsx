@@ -3,7 +3,7 @@ import {Component, ReactElement, ReactNode} from 'react';
 import $ from 'jquery';
 import {StringMap} from '../util/string_map';
 import {Util} from '../util/util';
-import {CloseOutlined} from '@ant-design/icons';
+import {CloseOutlined, FullscreenOutlined} from '@ant-design/icons';
 
 const validHtmlTagList: string[] = [
     'div', 'span', 'i', 'td', 'th', 'img', 'svg', 'p', 'button', 'a', 'li', 'select', 'option', 'aside',
@@ -192,7 +192,7 @@ export class StyleInfoPanel extends Component<StyleInfoPanelProps, StyleInfoPane
             let parent = $(element).parent();
             if (parent[0] && parent[0] !== this.props.getContentContainer()) {
                 outerElement = (
-                    <Util.A className='left-margin-sm' icon='fullscreen' onClick={() => {
+                    <Util.A className='left-margin-sm' icon={<FullscreenOutlined/>} onClick={() => {
                         this.props.switchElement(parent[0]);
                     }}>
                         向外一层
@@ -345,7 +345,7 @@ export class StyleInfoPanel extends Component<StyleInfoPanelProps, StyleInfoPane
     render() {
         const {activeElement, lockedElement, removeActive, removeLocked} = this.props;
         return (
-            <React.Fragment>
+            <div className='proto-frameworks'>
                 <div style={{
                     top: '40px', right: '10px', width: '200px', position: 'fixed',
                     maxHeight: ($(window).height() - 50) + 'px', overflowY: 'auto',
@@ -360,7 +360,7 @@ export class StyleInfoPanel extends Component<StyleInfoPanelProps, StyleInfoPane
                     this.renderElementBorder(activeElement)
                 )}
                 {this.renderDeltaDist()}
-            </React.Fragment>
+            </div>
         );
     }
 }
