@@ -16,7 +16,7 @@ class DemoSubModule extends Component<DemoSubModuleProps, DemoSubModuleState> {
     render() {
         const {stage} = this.props;
         return (
-            <div>
+            <div style={{width: '400px'}}>
                 <h1>This a sub module</h1>
                 {typeof stage !== 'number' ? (
                     <p>This is the default stage.</p>

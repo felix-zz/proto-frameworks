@@ -228,8 +228,6 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
     contentContainer: HTMLElement;
     updatingSizeInfo: boolean;
     sizeInfoEnteredTime: number;
-    sizeInfoLeftTime: number;
-    lastLeftTarget: EventTarget;
     debouncedUpdateHoverActions: () => void;
 
     constructor(props: VersionContextProps) {
@@ -315,19 +313,21 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
     }
 
     dismissHoveredElement(target: EventTarget) {
-        const dismissTime = moment().valueOf();
-        setTimeout(() => {
-            let updateTime = this.sizeInfoEnteredTime;
-            if (dismissTime <= updateTime) {
+        const leftTime = moment().valueOf();
+        window.setTimeout(() => {
+            this.updatingSizeInfo = true;
+            const {activeSizingElement} = this.state;
+            if (target !== activeSizingElement) {
                 return;
             }
-            this.updatingSizeInfo = true;
-            this.sizeInfoLeftTime = moment().valueOf();
-            this.lastLeftTarget = target;
+            const lastEnter = this.sizeInfoEnteredTime;
+            if (leftTime - lastEnter < 10) {
+                return;
+            }
             this.setState({activeSizingElement: null}, () => {
                 this.updatingSizeInfo = false;
             });
-        }, 50);
+        }, 30);
     }
 
     onElementMouseLeave(e: Event) {
@@ -347,11 +347,6 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
             return;
         }
         if (e.currentTarget !== e.target) {
-            return;
-        }
-        let leftTime = this.sizeInfoLeftTime;
-        let lastLeft = this.lastLeftTarget;
-        if (moment().valueOf() < leftTime + 10 && lastLeft === e.target) {
             return;
         }
         this.updatingSizeInfo = true;

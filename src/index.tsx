@@ -6,6 +6,7 @@ import DemoModuleIndex from './demo/module_index';
 import DemoSubModule from './demo/sub_module';
 import {Link} from 'react-router-dom';
 import {NodeIndexOutlined} from '@ant-design/icons';
+import DemoMobileRem from './demo/mobile_rem_style';
 
 interface DemoFrameworkIndexProps {
 }
@@ -81,6 +82,11 @@ export class DemoIndex extends Component<DemoIndexProps, DemoIndexState> {
                                                              ver: 'v202106',
                                                          }]
                                                      }
+                                                 },
+                                                 mobile: {
+                                                     name: 'Mobile REM-based Demo',
+                                                     ver: 'v202106',
+                                                     element: DemoMobileRem,
                                                  }
                                              }
                                          }
