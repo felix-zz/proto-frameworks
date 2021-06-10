@@ -210,8 +210,6 @@ class CommentContent extends React.Component<CommentContentProps, CommentContent
     }
 }
 
-export const STYLE_INFO_HANDLED: string = '__style_info_handled__';
-
 interface VersionContextState {
     leftComments?: CommentContentProps[];
     rightComments?: CommentContentProps[];
@@ -337,10 +335,9 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
         if (!sizeMode) {
             return;
         }
-        if (_.get(e, STYLE_INFO_HANDLED) === true) {
+        if (e.currentTarget !== e.target) {
             return;
         }
-        _.set(e, STYLE_INFO_HANDLED, true);
         this.dismissHoveredElement(e.target);
     }
 
@@ -349,13 +346,12 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
         if (!sizeMode) {
             return;
         }
-        if (_.get(e, STYLE_INFO_HANDLED) === true) {
+        if (e.currentTarget !== e.target) {
             return;
         }
-        _.set(e, STYLE_INFO_HANDLED, true);
         let leftTime = this.sizeInfoLeftTime;
         let lastLeft = this.lastLeftTarget;
-        if (moment().valueOf() > leftTime - 10 && lastLeft === e.target) {
+        if (moment().valueOf() < leftTime + 10 && lastLeft === e.target) {
             return;
         }
         this.updatingSizeInfo = true;

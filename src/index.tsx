@@ -4,6 +4,29 @@ import ProtoFrameworks from './proto-frameworks';
 import './proto-frameworks.scss';
 import DemoModuleIndex from './demo/module_index';
 import DemoSubModule from './demo/sub_module';
+import {Link} from 'react-router-dom';
+import {NodeIndexOutlined} from '@ant-design/icons';
+
+interface DemoFrameworkIndexProps {
+}
+
+interface DemoFrameworkIndexState {
+}
+
+export class DemoFrameworkIndex extends Component<DemoFrameworkIndexProps, DemoFrameworkIndexState> {
+    constructor(props: DemoFrameworkIndexProps) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>This is the User Defined Index for the Root Page "/"</h1>
+            </div>
+        );
+    }
+}
+
 
 interface DemoIndexProps {
 }
@@ -19,6 +42,18 @@ export class DemoIndex extends Component<DemoIndexProps, DemoIndexState> {
     render() {
         return (
             <ProtoFrameworks defaultProduct='demo'
+                             indexPage={DemoFrameworkIndex}
+                             currentVersion='v202106'
+                             historyVersions={[{
+                                 version: 'v202105',
+                                 description: 'Description for version 202105.',
+                             }]}
+                             titleToolbar={(
+                                 <Link to='/' className='left-margin'>
+                                     <NodeIndexOutlined/>
+                                     Demo Toolbar (To Index)
+                                 </Link>
+                             )}
                              pageTree={{
                                  demo: {
                                      name: 'Demo Product',
@@ -51,8 +86,7 @@ export class DemoIndex extends Component<DemoIndexProps, DemoIndexState> {
                                          }
                                      }
                                  }
-                             }}
-                             currentVersion='v202106'/>
+                             }}/>
         );
     }
 }

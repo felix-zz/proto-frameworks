@@ -1,9 +1,7 @@
 import React, {Component, ComponentType, ReactNode} from 'react';
 import {HashRouter, Link, Route} from 'react-router-dom';
-import Modal from 'react-modal';
 import * as _ from 'lodash';
 import {
-    FontSizeOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     MinusSquareOutlined,
@@ -20,20 +18,22 @@ import InnerModal from './components/inner_modal';
 
 let toggleSizingMode: (on?: boolean) => void = null;
 
-Modal.setAppElement('body');
-
 window.onkeydown = (e: KeyboardEvent) => {
     if (e.shiftKey && _.toLower(e.key) === 'e' && toggleSizingMode) {
         toggleSizingMode();
     }
 };
 
-interface FrameworkProps extends RouteComponentProps {
+interface FrameworkPropsBase {
     defaultProduct?: string;
     pageTree: StringMap<PageNode>;
-    historyVersions: VersionInfo[];
+    historyVersions?: VersionInfo[];
     currentVersion: string;
     navBar?: ReactNode;
+    titleToolbar?: ReactNode;
+}
+
+interface FrameworkProps extends RouteComponentProps, FrameworkPropsBase {
 }
 
 interface FrameworkState {
@@ -52,6 +52,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
             versionRelated: sessionStorage.getItem('versionRelated') !== 'false',
             sidebarHidden: sessionStorage.getItem('sidebarHidden') === 'true',
             sizeMode: sessionStorage.getItem('sizeMode') === 'true',
+            historyVisible: false,
         };
         this.searchVersion = _.debounce(this.searchVersion.bind(this), 300);
     }
@@ -113,7 +114,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                 <InnerModal display={!!historyVisible} onClose={closeHistories}
                             style={{top: '15px', width: '650px'}} title='历史版本'>
                     <div>
-                        <input style={{width: '300px'}}
+                        <input style={{width: '300px'}} className='proto-fw-input'
                                onChange={e => this.searchVersion(e.target.value)}
                                placeholder='搜索版本和描述'/>
                     </div>
@@ -195,7 +196,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
 
     render() {
         const {versionRelated, sidebarHidden, sizeMode} = this.state;
-        const {pageTree, currentVersion} = this.props;
+        const {pageTree, currentVersion, titleToolbar} = this.props;
         let currentProduct = this.getCurrentProduct();
         const products: ReactNode[] = [];
         let currentHash = window.location.hash;
@@ -252,11 +253,8 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                                onChange={e => this.toggleSizingMode(!!e.target.checked)}/>
                         度量模式{' ⇧E'}
                     </label>
-                    <Link className='left-margin' to='/' style={{fontSize: '12px'}}>
-                        <FontSizeOutlined className='right-margin-xs'/>
-                        设计规范
-                    </Link>
                     {this.renderVersionHistory()}
+                    {titleToolbar}
                 </div>
                 {!sidebarHidden && (
                     <div className='proto-frameworks framework-sidebar'>
@@ -294,11 +292,7 @@ export class BlankIndex extends Component<BlankIndexProps, BlankIndexState> {
 }
 
 
-interface ProtoFrameworksProps {
-    currentVersion: string;
-    pageTree: StringMap<PageNode>;
-    defaultProduct: string;
-    historyVersions?: VersionInfo[];
+interface ProtoFrameworksProps extends FrameworkPropsBase {
     indexPage?: ComponentType;
 }
 
@@ -311,13 +305,13 @@ export default class ProtoFrameworks extends Component<ProtoFrameworksProps, Pro
     }
 
     renderPage(Element: ComponentType, navBar: ReactNode, elementProps: StringMap<any>) {
-        const {currentVersion, pageTree, defaultProduct, historyVersions} = this.props;
+        const {currentVersion, pageTree, defaultProduct, historyVersions, titleToolbar} = this.props;
         return (props: RouteComponentProps<StringMap<any>>) => {
-            const pageKey = _.get(window, 'location.search') || '#' + _.get(window, 'location.hash');
+            const pageKey = props.location.pathname + '#' + props.location.hash;
             let finalProps: StringMap<any> = _.assign({}, elementProps, props);
             return (
                 <Framework key={pageKey} navBar={navBar} currentVersion={currentVersion} pageTree={pageTree}
-                           defaultProduct={defaultProduct} historyVersions={historyVersions}
+                           defaultProduct={defaultProduct} historyVersions={historyVersions} titleToolbar={titleToolbar}
                            {...props}>
                     <Element {...finalProps}/>
                 </Framework>

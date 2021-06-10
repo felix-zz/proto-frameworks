@@ -31,29 +31,31 @@ class InnerModal extends Component<InnerModalProps, InnerModalState> {
 
     componentDidUpdate(prevProps: Readonly<InnerModalProps>, prevState: Readonly<InnerModalState>, snapshot?: any) {
         const {style, title, children, display, onClose} = this.props;
-        if (!prevProps.display && display) {
-            ReactDOM.render((
-                <div className='proto-frameworks framework-inner-modal-mask' onClick={onClose}>
-                    <div className='inner-modal' style={style}
-                         onClick={e => e.stopPropagation()}>
-                        {!!title && (
-                            <div className='inner-modal-title'>
-                                {title}
-                                <Util.A className='inner-modal-close' onClick={onClose}>
-                                    <CloseOutlined/>
-                                </Util.A>
-                            </div>
-                        )}
-                        <div className='inner-modal-body'>
-                            {children}
-                        </div>
-                    </div>
-                </div>
-            ), document.getElementById('inner-modal-container'));
-        }
         if (prevProps.display && !display) {
             ReactDOM.unmountComponentAtNode(document.getElementById('inner-modal-container'));
+            return;
         }
+        if (!display) {
+            return;
+        }
+        ReactDOM.render((
+            <div className='proto-frameworks framework-inner-modal-mask' onClick={onClose}>
+                <div className='inner-modal' style={style}
+                     onClick={e => e.stopPropagation()}>
+                    {!!title && (
+                        <div className='inner-modal-title'>
+                            {title}
+                            <Util.A className='inner-modal-close' onClick={onClose}>
+                                <CloseOutlined/>
+                            </Util.A>
+                        </div>
+                    )}
+                    <div className='inner-modal-body'>
+                        {children}
+                    </div>
+                </div>
+            </div>
+        ), document.getElementById('inner-modal-container'));
     }
 
     render(): ReactNode {

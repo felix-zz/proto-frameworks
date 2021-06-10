@@ -24,6 +24,18 @@ html, body {
     monospace;
   }
 
+  input.proto-fw-input {
+    padding: 0 8px;
+    border: 1px solid $proto-fw-border-base;
+    line-height: 24px;
+    font-size: 12px;
+
+    &:hover, &:focus {
+      border-color: $proto-fw-primary-color;
+      outline: none;
+    }
+  }
+
   &.framework-head {
     position: fixed;
     height: 30px;
@@ -258,8 +270,8 @@ html, body {
     color: $proto-fw-primary-color;
   }
 
-  .text-dark {
-    color: #666;
+  .text-dark, .text-grey {
+    color: #999;
   }
 
   $directions: [top, right, bottom, left];
