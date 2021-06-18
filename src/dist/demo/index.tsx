@@ -1,12 +1,12 @@
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import {Component} from 'react';
-import ProtoFrameworks from './proto-frameworks';
+import {ProtoFrameworks} from '../../lib/proto-frameworks';
 import './proto-frameworks.scss';
-import DemoModuleIndex from './demo/module_index';
-import DemoSubModule from './demo/sub_module';
+import DemoModuleIndex from './module_index';
+import DemoSubModule from './sub_module';
 import {Link} from 'react-router-dom';
 import {NodeIndexOutlined} from '@ant-design/icons';
-import DemoMobileRem from './demo/mobile_rem_style';
+import DemoMobileRem from './mobile_rem_style';
 
 interface DemoFrameworkIndexProps {
 }

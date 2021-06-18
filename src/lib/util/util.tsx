@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {HTMLAttributes, ReactNode} from 'react';
-import {StringMap} from './string_map';
 import * as _ from 'lodash';
 
 const openPage = (href: string): void => window.location.assign(href);
@@ -31,6 +30,10 @@ class A extends React.Component<AProps, {}> {
     }
 }
 
-export const Util: StringMap<any> = {
-    A,
+interface _Util {
+    A: typeof A;
+}
+
+export const Util: _Util = {
+    A: A,
 };

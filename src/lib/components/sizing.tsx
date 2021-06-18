@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {Component, ReactElement, ReactNode} from 'react';
 import $ from 'jquery';
-import {StringMap} from '../util/string_map';
 import {Util} from '../util/util';
 import {CloseOutlined, FullscreenOutlined} from '@ant-design/icons';
+import {StringMap} from '../util/export';
 
 const validHtmlTagList: string[] = [
     'div', 'span', 'i', 'td', 'th', 'img', 'svg', 'p', 'button', 'a', 'li', 'select', 'option', 'aside',

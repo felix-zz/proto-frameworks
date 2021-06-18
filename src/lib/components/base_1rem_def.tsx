@@ -7,7 +7,7 @@ interface Base1RemProps {
 interface Base1RemState {
 }
 
-class Base1Rem extends Component<Base1RemProps, Base1RemState> {
+export class Base1Rem extends Component<Base1RemProps, Base1RemState> {
     constructor(props: Base1RemProps) {
         super(props);
     }
@@ -18,5 +18,3 @@ class Base1Rem extends Component<Base1RemProps, Base1RemState> {
         );
     }
 }
-
-export default Base1Rem;

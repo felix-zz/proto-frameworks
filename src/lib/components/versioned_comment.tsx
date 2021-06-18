@@ -1,15 +1,13 @@
 import * as React from 'react';
-import {Component, CSSProperties, DOMElement, ReactNode, ReactNodeArray} from 'react';
+import {Component, CSSProperties} from 'react';
 import * as _ from 'lodash';
 import $ from 'jquery';
 import {StyleInfoPanel, validHtmlTags} from './sizing';
 import {Util} from '../util/util';
-import {StringMap} from '../util/string_map';
 import {CloseOutlined} from '@ant-design/icons';
 import moment from 'moment';
-
-const CommentContext = React.createContext(null);
-const ContextDisableContext = React.createContext(null);
+import {StringMap} from '../util/export';
+import {CommentContentProps, CommentContext, ComponentComment} from './comment_def';
 
 let pageComments: CommentContent[] = [];
 setInterval(() => {
@@ -23,8 +21,6 @@ const clearAllStickers = () => {
     _.each(pageComments, (pc: CommentContent) => pc.removeAllStickers());
 };
 
-type CommentPosition = 'left' | 'right';
-
 interface CommentInfo {
     x?: number;
     y?: number;
@@ -35,17 +31,6 @@ interface CommentInfo {
     width?: number;
     height?: number;
     elementId?: string;
-}
-
-interface CommentContentProps {
-    position?: CommentPosition;
-    elements?: DOMElement<any, any>[];
-    content?: string | ReactNode;
-    width?: number | string;
-    title?: string | ReactNode;
-    maxHeight?: number;
-    plainContent?: boolean;
-    refreshLine?: () => void;
 }
 
 interface CommentContentState {
@@ -405,97 +390,6 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
                                     }}/>
                 )}
             </div>
-        );
-    }
-}
-
-export class DisableComment extends React.Component<{}, {}> {
-    constructor(props: any) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <ContextDisableContext.Provider value={true}>
-                {this.props.children}
-            </ContextDisableContext.Provider>
-        );
-    }
-}
-
-const AnchorContext = React.createContext(null);
-
-export class CommentAnchor extends React.Component<{}, {}> {
-    static contextType = ContextDisableContext;
-
-    constructor(props: any) {
-        super(props);
-    }
-
-    render() {
-        if (this.context === true) {
-            return null;
-        }
-        return (
-            <AnchorContext.Consumer>
-                {comment => (
-                    <span style={{display: 'none'}} ref={ref => comment.addAnchor(ref)}/>
-                )}
-            </AnchorContext.Consumer>
-        );
-    }
-}
-
-export type CommentMap = StringMap<string | ReactNode | ReactNodeArray>;
-
-interface ComponentCommentProps extends CommentContentProps {
-    uk?: string; // Make sure component comment shows up only once.
-    comments: CommentMap;
-    selector?: string;
-}
-
-export class ComponentComment extends Component<ComponentCommentProps, {}> {
-
-    static contextType = CommentContext;
-
-    anchors: any[];
-    elements: any[];
-
-    constructor(props: ComponentCommentProps) {
-        super(props);
-        this.anchors = [];
-    }
-
-    componentDidMount() {
-        let anchors = this.anchors;
-        if (!anchors.length) {
-            return;
-        }
-        const elements: any[] = [];
-        const {selector} = this.props;
-        anchors.forEach(a => {
-            let $element = $(a).next();
-            const element = selector ? $element.find(selector)[0] : $element[0];
-            element && elements.push(element);
-        });
-        if (elements.length) {
-            this.elements = elements;
-            this.context.addComment(this);
-        }
-    }
-
-    addAnchor(anchor: any) {
-        this.anchors.push(anchor);
-    }
-
-    render() {
-        return (
-            <React.Fragment>
-                <AnchorContext.Provider value={this}>
-                    <CommentAnchor/>
-                    {this.props.children}
-                </AnchorContext.Provider>
-            </React.Fragment>
         );
     }
 }

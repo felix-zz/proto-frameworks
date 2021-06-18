@@ -1,7 +1,9 @@
 {
   "name": "proto-frameworks",
-  "version": "0.1.1",
+  "version": "0.1.10",
   "private": false,
+  "main": "index.js",
+  "typings": "index.d.ts",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "jquery": "^3.6.0",
@@ -29,12 +31,16 @@
     "typescript": "^4.3.2"
   },
   "scripts": {
-    "build": "tsc && sass src/proto-frameworks.scss dist/proto-frameworks.css",
+    "clean": "rm -rf ./dist ./lib index.d.ts index.js *.tgz",
+    "build": "yarn clean && tsc && sass src/lib/proto-frameworks.scss lib/proto-frameworks.css",
     "start": "react-scripts start",
     "eject": "react-scripts eject"
   },
   "files": [
-    "dist"
+    "dist",
+    "lib",
+    "index.js",
+    "index.d.ts"
   ],
   "eslintConfig": {
     "extends": [

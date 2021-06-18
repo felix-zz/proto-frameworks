@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import Base1Rem from '../components/base_1rem';
+import {Base1Rem} from '../../lib/components/base_1rem_def';
 
 interface DemoMobileRemProps {
 }

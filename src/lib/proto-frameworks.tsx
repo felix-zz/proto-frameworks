@@ -1,4 +1,5 @@
-import React, {Component, ComponentType, ReactNode} from 'react';
+import * as React from 'react';
+import {Component, ComponentType, ReactNode} from 'react';
 import {HashRouter, Link, Route} from 'react-router-dom';
 import * as _ from 'lodash';
 import {
@@ -8,13 +9,13 @@ import {
     PlusSquareOutlined,
     UnorderedListOutlined
 } from '@ant-design/icons';
-import {StringMap} from './util/string_map';
-import {VersionInfo} from './components/versions';
 import {PageNode} from './components/page_def';
 import {Util} from './util/util';
 import VersionContext from './components/versioned_comment';
 import {RouteComponentProps} from 'react-router';
 import InnerModal from './components/inner_modal';
+import {StringMap} from './util/export';
+import {VersionInfo} from './components/version_def';
 
 let toggleSizingMode: (on?: boolean) => void = null;
 
@@ -279,7 +280,7 @@ interface BlankIndexProps {
 interface BlankIndexState {
 }
 
-export class BlankIndex extends Component<BlankIndexProps, BlankIndexState> {
+class BlankIndex extends Component<BlankIndexProps, BlankIndexState> {
     constructor(props: BlankIndexProps) {
         super(props);
     }
@@ -291,7 +292,6 @@ export class BlankIndex extends Component<BlankIndexProps, BlankIndexState> {
     }
 }
 
-
 interface ProtoFrameworksProps extends FrameworkPropsBase {
     indexPage?: ComponentType;
 }
@@ -299,7 +299,7 @@ interface ProtoFrameworksProps extends FrameworkPropsBase {
 interface ProtoFrameworksState {
 }
 
-export default class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFrameworksState> {
+export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFrameworksState> {
     constructor(props: ProtoFrameworksProps) {
         super(props);
     }

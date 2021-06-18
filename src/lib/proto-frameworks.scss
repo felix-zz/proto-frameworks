@@ -262,7 +262,7 @@ html, body {
     }
 
     &:hover {
-      color: lighten($proto-fw-primary-color, 12%);
+      color: lighten($proto-fw-primary-color, 0.12);
     }
   }
 
@@ -272,6 +272,24 @@ html, body {
 
   .text-dark, .text-grey {
     color: #999;
+  }
+
+  .status-table {
+    width: 100%;
+
+    thead th {
+      text-align: center;
+      background: fade-out($proto-fw-primary-color, 0.7);
+
+      span {
+        display: inline-block;
+      }
+    }
+
+    thead th,
+    tbody td {
+      padding: 1px 4px;
+    }
   }
 
   $directions: [top, right, bottom, left];

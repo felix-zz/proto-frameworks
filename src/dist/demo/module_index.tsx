@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {ComponentComment} from '../components/versioned_comment';
+import {ComponentComment} from '../../lib/components/comment_def';
 
 interface DemoModuleIndexProps {
 }
