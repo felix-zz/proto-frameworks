@@ -351,7 +351,8 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
                 }
             }}>
                 {!sizeMode && (!!leftComments && !!leftComments.length) && (
-                    <div className='proto-frameworks' style={{display: 'table-cell', padding: '10px'}}>
+                    <div className='proto-frameworks'
+                         style={{display: 'table-cell', padding: '10px', verticalAlign: 'top'}}>
                         {leftComments.map((c, i) => (
                             <React.Fragment key={i}>
                                 <CommentContent {...c}/>
@@ -360,13 +361,13 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
                         ))}
                     </div>
                 )}
-                <div ref={ref => this.contentContainer = ref} style={{display: 'table-cell', padding: '30px'}}>
+                <div ref={ref => this.contentContainer = ref} style={{display: 'table-cell', padding: '30px', verticalAlign: 'top'}}>
                     <CommentContext.Provider value={this}>
                         {this.props.children}
                     </CommentContext.Provider>
                 </div>
                 {!sizeMode && (!!rightComments && !!rightComments.length) && (
-                    <div className='proto-frameworks' style={{display: 'table-cell', padding: '10px'}}>
+                    <div className='proto-frameworks' style={{display: 'table-cell', padding: '10px', verticalAlign: 'top'}}>
                         {rightComments.map((c, i) => (
                             <React.Fragment key={i}>
                                 <CommentContent {...c}/>
