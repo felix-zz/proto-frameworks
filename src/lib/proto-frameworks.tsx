@@ -220,7 +220,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                 );
             }
             products.push((
-                <span key={key}>
+                <span key={key} className='left-margin'>
                     {anchor}
                 </span>
             ));
@@ -237,7 +237,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                         {sidebarHidden ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                     </Util.A>
                     {!!products && !!products.length && (
-                        <span style={{fontSize: '14px'}} className='left-margin'>
+                        <span style={{fontSize: '14px'}}>
                             {products}
                         </span>
                     )}
