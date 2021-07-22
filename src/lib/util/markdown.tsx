@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react';
 import * as _ from 'lodash';
-import * as marked from 'marked';
+import marked from 'marked';
 
 interface MarkdownProps extends React.HTMLProps<HTMLDivElement> {
     md: string;
