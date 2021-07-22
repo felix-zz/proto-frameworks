@@ -2,12 +2,15 @@ import * as React from 'react';
 import {ComponentType} from 'react';
 import * as _ from 'lodash';
 import {StringMap} from '../util/export';
+import {Requirement} from './requirement_def';
 
 export interface PageNavItem {
     name: string;
     element?: ComponentType;
     props?: StringMap<any>;
     ver?: string;
+    requirements?: Requirement[];
+    link?: string;
 }
 
 export interface PageNav {

@@ -1,4 +1,5 @@
 import {ReactNode} from 'react';
+import {PageNavItem} from './page_def';
 
 export interface RequirementGroup {
     key: string;
@@ -17,6 +18,7 @@ export interface Requirement {
     renderContent: () => ReactNode;
     group?: RequirementGroup;
     plan?: RequirementPlan;
+    pages?: PageNavItem[];
 }
 
 export interface RequirementPlan {
