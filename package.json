@@ -33,6 +33,7 @@
   "scripts": {
     "clean": "rm -rf ./dist ./lib index.d.ts index.js *.tgz",
     "build": "yarn clean && tsc && sass src/lib/proto-frameworks.scss lib/proto-frameworks.css",
+    "postpack": "cd demo && yarn add ../proto-frameworks*.tgz",
     "start": "react-scripts start",
     "eject": "react-scripts eject"
   },

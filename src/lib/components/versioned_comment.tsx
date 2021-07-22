@@ -7,7 +7,14 @@ import {Util} from '../util/util';
 import {CloseOutlined} from '@ant-design/icons';
 import moment from 'moment';
 import {StringMap} from '../util/export';
-import {CommentContentProps, CommentContext, ComponentComment} from './comment_def';
+import {
+    CommentContentProps,
+    CommentContext,
+    CommentMap,
+    CommentScopeController,
+    ComponentComment,
+    ComponentScope
+} from './comment_def';
 
 let pageComments: CommentContent[] = [];
 setInterval(() => {
@@ -207,7 +214,7 @@ interface VersionContextProps {
     sizeMode?: boolean;
 }
 
-class VersionContext extends Component<VersionContextProps, VersionContextState> {
+class VersionContext extends Component<VersionContextProps, VersionContextState> implements CommentScopeController {
     ukMap: StringMap<boolean>;
     comments: CommentContentProps[];
     contentContainer: HTMLElement;
@@ -215,11 +222,15 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
     sizeInfoEnteredTime: number;
     debouncedUpdateHoverActions: () => void;
 
+    disableAll: boolean;
+    scopeMap: ComponentScope;
+
     constructor(props: VersionContextProps) {
         super(props);
         this.ukMap = {};
         this.comments = [];
         this.state = {};
+        this.scopeMap = {};
         pageComments = [];
         this.onElementMouseEnter = this.onElementMouseEnter.bind(this);
         this.onElementMouseLeave = this.onElementMouseLeave.bind(this);
@@ -227,29 +238,38 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
     }
 
     addComment(comment: ComponentComment) {
-        const {uk, comments} = comment.props;
-        if (!comments) {
-            return;
-        }
-        const {currentVersion} = this.props;
-        let content = comments[currentVersion] || comments.global;
-        if (!content) {
-            return;
-        }
-        const {elements} = comment;
-        if (!elements || !elements.length) {
-            return;
-        }
-        if (uk) {
-            let ukMap = this.ukMap;
-            if (ukMap[uk]) {
+        const {uk, comments, scopedComments} = comment.props;
+        const addComments = (commentMap: CommentMap) => {
+            if (!commentMap) {
                 return;
             }
-            ukMap[uk] = true;
+            const {currentVersion} = this.props;
+            let content = commentMap[currentVersion] || commentMap.global;
+            if (!content) {
+                return;
+            }
+            const {elements} = comment;
+            if (!elements || !elements.length) {
+                return;
+            }
+            if (uk) {
+                let ukMap = this.ukMap;
+                if (ukMap[uk]) {
+                    return;
+                }
+                ukMap[uk] = true;
+            }
+            this.comments.push(_.assign({}, comment.props, {
+                elements, content,
+            }));
+        };
+        addComments(comments);
+        if (scopedComments) {
+            const {scope, comments: scopedCommentMap} = scopedComments;
+            if (this.scopeMap[scope] === true) {
+                addComments(scopedCommentMap);
+            }
         }
-        this.comments.push(_.assign({}, comment.props, {
-            elements, content,
-        }));
     }
 
     componentDidMount() {
@@ -361,13 +381,15 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
                         ))}
                     </div>
                 )}
-                <div ref={ref => this.contentContainer = ref} style={{display: 'table-cell', padding: '30px', verticalAlign: 'top'}}>
+                <div ref={ref => this.contentContainer = ref}
+                     style={{display: 'table-cell', padding: '30px', verticalAlign: 'top'}}>
                     <CommentContext.Provider value={this}>
                         {this.props.children}
                     </CommentContext.Provider>
                 </div>
                 {!sizeMode && (!!rightComments && !!rightComments.length) && (
-                    <div className='proto-frameworks' style={{display: 'table-cell', padding: '10px', verticalAlign: 'top'}}>
+                    <div className='proto-frameworks'
+                         style={{display: 'table-cell', padding: '10px', verticalAlign: 'top'}}>
                         {rightComments.map((c, i) => (
                             <React.Fragment key={i}>
                                 <CommentContent {...c}/>

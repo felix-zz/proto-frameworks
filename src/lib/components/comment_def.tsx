@@ -5,34 +5,84 @@ import $ from 'jquery';
 
 export declare type CommentPosition = 'left' | 'right';
 
-export const CommentContext = React.createContext(null);
-export const ContextDisableContext = React.createContext(null);
+export declare type ComponentScope = StringMap<boolean>;
 
-export class DisableComment extends React.Component<{}, {}> {
-    constructor(props: any) {
+export declare interface CommentScopeController {
+    disableAll: boolean;
+    scopeMap: ComponentScope;
+    addComment: (comment: ComponentComment) => void;
+}
+
+export const CommentContext = React.createContext<CommentScopeController>(null);
+
+interface CommentSwitchProps {
+    scope?: string | string[];
+}
+
+class CommentSwitch<TProps extends CommentSwitchProps, TState> extends Component<TProps, TState> {
+    constructor(props: TProps) {
+        super(props);
+    }
+
+    doSwitch(enable: boolean, controller: CommentScopeController) {
+        const {scope} = this.props;
+        if (scope) {
+            if (typeof scope === 'string') {
+                controller.scopeMap[scope] = enable;
+            } else {
+                scope.forEach(s => controller.scopeMap[s] = enable);
+            }
+        } else {
+            controller.disableAll = enable;
+        }
+    }
+}
+
+interface DisableCommentProps extends CommentSwitchProps {
+}
+
+export class DisableComment extends CommentSwitch<DisableCommentProps, {}> {
+    static contextType = CommentContext;
+
+    constructor(props: DisableCommentProps) {
         super(props);
     }
 
     render() {
-        return (
-            <ContextDisableContext.Provider value={true}>
-                {this.props.children}
-            </ContextDisableContext.Provider>
-        );
+        this.doSwitch(false, this.context);
+        return this.props.children;
     }
 }
+
+interface EnableCommentProps extends CommentSwitchProps {
+}
+
+export class EnableComment extends CommentSwitch<EnableCommentProps, {}> {
+    static contextType = CommentContext;
+
+    constructor(props: EnableCommentProps) {
+        super(props);
+    }
+
+    render() {
+        this.doSwitch(true, this.context);
+        return this.props.children;
+    }
+}
+
 
 export const AnchorContext = React.createContext(null);
 
 export class CommentAnchor extends React.Component<{}, {}> {
-    static contextType = ContextDisableContext;
+    static contextType = CommentContext;
 
     constructor(props: any) {
         super(props);
     }
 
     render() {
-        if (this.context === true) {
+        const context: CommentScopeController = this.context;
+        if (context.disableAll === true) {
             return null;
         }
         return (
@@ -46,6 +96,11 @@ export class CommentAnchor extends React.Component<{}, {}> {
 }
 
 export type CommentMap = StringMap<string | ReactNode | ReactNodeArray>;
+
+export interface ScopedCommentMap {
+    comments: CommentMap;
+    scope: string;
+}
 
 export interface CommentContentProps {
     position?: CommentPosition;
@@ -61,6 +116,7 @@ export interface CommentContentProps {
 interface ComponentCommentProps extends CommentContentProps {
     uk?: string; // Make sure component comment shows up only once.
     comments: CommentMap;
+    scopedComments?: ScopedCommentMap;
     selector?: string;
 }
 
@@ -89,8 +145,9 @@ export class ComponentComment extends Component<ComponentCommentProps, {}> {
             element && elements.push(element);
         });
         if (elements.length) {
+            const context: CommentScopeController = this.context;
             this.elements = elements;
-            this.context.addComment(this);
+            context.addComment(this);
         }
     }
 
