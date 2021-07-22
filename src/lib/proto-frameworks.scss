@@ -318,4 +318,13 @@ html, body {
   &.sidebar-hidden {
     padding-left: 0;
   }
+
+  .documentation {
+    max-width: 900px;
+    font-size: 14px;
+
+    p, li {
+      font-size: 14px;
+    }
+  }
 }

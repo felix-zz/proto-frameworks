@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import {NodeIndexOutlined} from '@ant-design/icons';
 import DemoMobileRem from './mobile_rem_style';
 import {ProtoFrameworks} from '../lib/proto-frameworks';
+import {RequirementPlan} from '../lib/components/requirement_def';
 
 interface DemoFrameworkIndexProps {
 }
@@ -67,6 +68,29 @@ const pageTree = {
     }
 };
 
+const plans: RequirementPlan[] = [{
+    key: 'demo_plan',
+    title: 'Demo Requirement Plan',
+    version: 'v202106',
+    prototypeAddress: '',
+    groups: [{
+        key: 'g1',
+        title: 'Requirement Group 1',
+        requirements: [{
+            key: 'r1',
+            title: 'This is a requirement title.',
+            renderContent: () => 'Hi, this is a reqiurement content',
+            priority: 1,
+        }],
+    }],
+}, {
+    key: 'p2',
+    title: 'Other Plan',
+    version: 'v202105',
+    prototypeAddress: '',
+    groups: [],
+}];
+
 interface DemoIndexProps {
 }
 
@@ -87,6 +111,7 @@ export class DemoIndex extends Component<DemoIndexProps, DemoIndexState> {
                                  version: 'v202105',
                                  description: 'Description for version 202105.',
                              }]}
+                             requirementPlans={plans}
                              titleToolbar={(
                                  <Link to='/' className='left-margin'>
                                      <NodeIndexOutlined/>

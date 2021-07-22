@@ -16,6 +16,8 @@ import {RouteComponentProps} from 'react-router';
 import InnerModal from './components/inner_modal';
 import {StringMap} from './util/export';
 import {VersionInfo} from './components/version_def';
+import {RequirementPlan} from './components/requirement_def';
+import {linkOfReq, RequirementContent, RequirementPlanList} from './components/requirement_plan_list';
 
 let toggleSizingMode: (on?: boolean) => void = null;
 
@@ -32,6 +34,7 @@ interface FrameworkPropsBase {
     currentVersion: string;
     navBar?: ReactNode;
     titleToolbar?: ReactNode;
+    requirementPlans?: RequirementPlan[];
 }
 
 interface FrameworkProps extends RouteComponentProps, FrameworkPropsBase {
@@ -302,9 +305,25 @@ interface ProtoFrameworksState {
 export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFrameworksState> {
     constructor(props: ProtoFrameworksProps) {
         super(props);
+        this.preparePlans();
     }
 
-    renderPage(Element: ComponentType, navBar: ReactNode, elementProps: StringMap<any>) {
+    preparePlans() {
+        const {requirementPlans} = this.props;
+        _.each(requirementPlans, plan => {
+            const {groups} = plan;
+            _.each(groups, group => {
+                group.plan = plan;
+                const {requirements} = group;
+                _.each(requirements, req => {
+                    req.group = group;
+                    req.plan = plan;
+                });
+            });
+        });
+    }
+
+    renderPage(Element: ComponentType<any>, navBar: ReactNode, elementProps: StringMap<any>) {
         const {currentVersion, pageTree, defaultProduct, historyVersions, titleToolbar} = this.props;
         return (props: RouteComponentProps<StringMap<any>>) => {
             const pageKey = props.location.pathname + '#' + props.location.hash;
@@ -362,6 +381,47 @@ export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFramew
         _.each(pages, (p, k) => this.renderRoutes(routes, k, p, path));
     }
 
+    getRequirementPlansRoute(): ReactNode {
+        const {requirementPlans} = this.props;
+        if (!requirementPlans || !requirementPlans.length) {
+            return null;
+        }
+        return (
+            <React.Fragment>
+                <Route exact path={['/__plan']} render={this.renderPage(RequirementPlanList, null, {
+                    plans: requirementPlans,
+                })}/>
+                {requirementPlans.map(plan => {
+                    const {key, groups} = plan;
+                    if (!groups) {
+                        return null;
+                    }
+                    return (
+                        <React.Fragment key={key}>
+                            {groups.map(group => {
+                                const {requirements} = group;
+                                if (!requirements) {
+                                    return null;
+                                }
+                                return (
+                                    <React.Fragment key={group.key}>
+                                        {requirements.map(req => (
+                                            <Route exact path={linkOfReq(req)}
+                                                   key={req.key}
+                                                   render={this.renderPage(RequirementContent, null, {
+                                                       requirement: req,
+                                                   })}/>
+                                        ))}
+                                    </React.Fragment>
+                                );
+                            })}
+                        </React.Fragment>
+                    );
+                })}
+            </React.Fragment>
+        );
+    }
+
     render() {
         const indexPaths: string[] = [];
         const routes: ReactNode[] = [];
@@ -375,6 +435,7 @@ export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFramew
                 <Route exact path={['/']} render={this.renderPage(indexPage || BlankIndex, null, {})}/>
                 <Route exact path={indexPaths} render={this.renderPage(BlankIndex, null, {})}/>
                 {routes}
+                {this.getRequirementPlansRoute()}
             </HashRouter>
         );
     }
