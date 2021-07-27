@@ -36,6 +36,7 @@ interface FrameworkPropsBase {
   navBar?: ReactNode;
   titleToolbar?: ReactNode;
   requirementPlans?: RequirementPlan[];
+  renderPlanTools?: (plan: RequirementPlan) => ReactNode;
 }
 
 interface FrameworkProps extends RouteComponentProps, FrameworkPropsBase {
@@ -430,7 +431,7 @@ export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFramew
   }
 
   getRequirementPlansRoute(): ReactNode {
-    const {requirementPlans} = this.props;
+    const {requirementPlans, renderPlanTools} = this.props;
     if (!requirementPlans || !requirementPlans.length) {
       return null;
     }
@@ -438,6 +439,7 @@ export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFramew
       <React.Fragment>
         <Route exact path={['/__plan']} render={this.renderPage(RequirementPlanList, null, {
           plans: requirementPlans,
+          renderPlanTools,
         })}/>
         {requirementPlans.map(plan => {
           const {key, groups} = plan;

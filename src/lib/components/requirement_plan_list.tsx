@@ -1,4 +1,4 @@
-import React, {Component, CSSProperties} from 'react';
+import React, {Component, CSSProperties, ReactNode} from 'react';
 import {PriorityLevel, Requirement, RequirementGroup, RequirementPlan} from './requirement_def';
 import {FileOutlined, MinusSquareOutlined, PlusSquareOutlined, RightOutlined, UpOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
@@ -21,6 +21,7 @@ interface ReqExt extends Requirement {
 
 interface RequirementPlanListProps {
   plans: RequirementPlan[];
+  renderPlanTools?: (plan: RequirementPlan) => ReactNode;
 }
 
 interface RequirementPlanListState {
@@ -59,6 +60,7 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
 
   render() {
     const {plans} = this.state;
+    const {renderPlanTools} = this.props;
     return (
       <div className='proto-frameworks' style={{width: '900px'}}>
         <h2>需求计划列表</h2>
@@ -78,7 +80,8 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
                   )}
                 </span>
                 <span className='req-tag right-margin-sm'>{version}</span>
-                {title}
+                <span className='right-margin'>{title}</span>
+                {!!renderPlanTools && renderPlanTools(plan)}
               </div>
               {!!expanded && !!groups && (
                 <div className='left-margin-lg'>
