@@ -24,6 +24,40 @@ html, body {
     monospace;
   }
 
+  &.proto-requirement {
+    .requirement-head {
+      $head-height: 40px;
+      width: 850px;
+      padding-bottom: 4px;
+      position: relative;
+      border-bottom: 1px solid $proto-fw-border-split;
+      margin-bottom: 16px;
+
+      .requirement-priority {
+        position: absolute;
+        line-height: $head-height;
+        font-size: 28px;
+        left: 0;
+        top: 0;
+      }
+
+      .requirement-title {
+        margin-left: $head-height - 5px;
+
+        .req-main-title {
+          font-size: 14px;
+          line-height: 22px;
+        }
+
+        .req-sub-title {
+          color: #999;
+          font-size: 12px;
+          line-height: $head-height - 22px;
+        }
+      }
+    }
+  }
+
   input.proto-fw-input {
     padding: 0 8px;
     border: 1px solid $proto-fw-border-base;
@@ -294,16 +328,20 @@ html, body {
   }
 
   .req-item {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 14px;
+    line-height: 22px;
     padding: 3px 0;
+
+    .req-priority {
+      font-size: 16px;
+    }
 
     .req-tag {
       display: inline-block;
       padding: 0 6px;
       color: #999;
       border: 1px solid #eee;
-      line-height: 22px;
+      line-height: 20px;
       font-size: 14px;
     }
 

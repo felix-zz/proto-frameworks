@@ -107,7 +107,7 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
                               <React.Fragment key={req.key}>
                                 <div className='req-item'>
                                   <Link to={linkOfReq(req)}>
-                                    <ReqPriority priority={req.priority}/>
+                                    <ReqPriority className='req-priority' priority={req.priority}/>
                                     {' '}{req.title}
                                   </Link>
                                   {!!pages && !!pages.length && (
@@ -122,8 +122,8 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
                                 </div>
                                 {!!re && !!pages && pages.map(p => {
                                   return (
-                                    <div key={p.link} style={{fontSize: '14px', lineHeight: '28px'}}
-                                         className='left-margin-lg'>
+                                    <div key={p.link}
+                                         className='left-margin-lg req-item'>
                                       <Link to={p.link}>
                                         <FileOutlined className='text-grey'/>
                                         {' '}{p.name}
@@ -167,21 +167,21 @@ export class ReqPriority extends Component<ReqPriorityProps, ReqPriorityState> {
     const {priority, className, style} = this.props;
     let color: string;
     let text: string;
-    switch (this.props.priority) {
+    switch (priority) {
       case 1:
-        color = '#990000';
+        color = '#bb0000';
         text = '①';
         break;
       case 2:
-        color = '#cc9900';
+        color = '#ecb000';
         text = '②';
         break;
       case 3:
-        color = '#3388cc';
+        color = '#3399dd';
         text = '③';
         break;
       default:
-        color = '#008800';
+        color = '#009f00';
         text = '④';
         break;
     }
@@ -208,14 +208,25 @@ export class RequirementContent extends Component<RequirementContentProps, Requi
     const {requirement} = this.props;
     return (
       <div>
-        <div>
-          <Link to='/__plan'>计划</Link>
-          {' / '}
-          {requirement.group.plan.title}
-          {' / '}
-          {requirement.group.title}
+        <div className='proto-frameworks proto-requirement'>
+          <div className='requirement-head'>
+            <div className='requirement-priority'>
+              <ReqPriority priority={requirement.priority}/>
+            </div>
+            <div className='requirement-title'>
+              <div className='req-main-title'>
+                {requirement.title}
+              </div>
+              <div className='req-sub-title'>
+                <Link to='/__plan'>所有计划</Link>
+                {' / '}
+                {requirement.group.plan.title}
+                {' / '}
+                {requirement.group.title}
+              </div>
+            </div>
+          </div>
         </div>
-        <h1><ReqPriority priority={requirement.priority}/>{' '}{requirement.title}</h1>
         {requirement.renderContent()}
       </div>
     );

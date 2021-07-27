@@ -5,9 +5,9 @@ import $ from 'jquery';
 import {StyleInfoPanel, validHtmlTags} from './sizing';
 import {Util} from '../util/util';
 import {CloseOutlined} from '@ant-design/icons';
-import * as moment from 'moment';
 import {StringMap} from '../util/export';
 import {CommentContentProps, CommentContext, ComponentComment} from './comment_def';
+import moment from 'moment';
 
 let pageComments: CommentContent[] = [];
 setInterval(() => {

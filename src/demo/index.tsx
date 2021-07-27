@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {NodeIndexOutlined} from '@ant-design/icons';
 import DemoMobileRem from './mobile_rem_style';
 import {ProtoFrameworks} from '../lib/proto-frameworks';
-import {Requirement, RequirementPlan} from '../lib/components/requirement_def';
+import {createRequirement, Requirement, RequirementPlan} from '../lib/components/requirement_def';
 
 interface DemoFrameworkIndexProps {
 }
@@ -35,6 +35,10 @@ const req1: Requirement = {
   renderContent: () => 'Hi, this is a reqiurement content',
   priority: 1,
 };
+
+const req2 = createRequirement('r2', 'Req 2', 2, () => 'This is req2');
+const req3 = createRequirement('r3', 'Req 3', 3, () => 'This is req3');
+const req4 = createRequirement('r4', 'Req 4', 4, () => 'This is req4');
 
 const pageTree = {
   demo: {
@@ -83,7 +87,7 @@ const plans: RequirementPlan[] = [{
   groups: [{
     key: 'g1',
     title: 'Requirement Group 1',
-    requirements: [req1],
+    requirements: [req1, req2, req3, req4],
   }],
 }, {
   key: 'p2',
