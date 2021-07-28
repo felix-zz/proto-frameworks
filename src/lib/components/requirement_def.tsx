@@ -1,5 +1,6 @@
-import {ReactNode} from 'react';
+import React, {Component, CSSProperties, ReactNode} from 'react';
 import {PageNavItem} from './page_def';
+import * as _ from "lodash";
 
 export interface RequirementGroup {
   key: string;
@@ -42,3 +43,45 @@ export const createRequirementPlan =
   (key: string, title: string, version: string, groups: RequirementGroup[], protoAddress?: string): RequirementPlan => ({
     key, title, version, groups, prototypeAddress: protoAddress,
   });
+
+interface ReqPriorityProps {
+  priority: PriorityLevel;
+  style?: CSSProperties;
+  className?: string;
+}
+
+interface ReqPriorityState {
+}
+
+export class ReqPriority extends Component<ReqPriorityProps, ReqPriorityState> {
+  constructor(props: ReqPriorityProps) {
+    super(props);
+  }
+
+  render() {
+    const {priority, className, style} = this.props;
+    let color: string;
+    let text: string;
+    switch (priority) {
+      case 1:
+        color = '#bb0000';
+        text = '①';
+        break;
+      case 2:
+        color = '#ecb000';
+        text = '②';
+        break;
+      case 3:
+        color = '#3399dd';
+        text = '③';
+        break;
+      default:
+        color = '#009f00';
+        text = '④';
+        break;
+    }
+    return (
+      <span style={_.assign({color: color}, style)} className={className}>{text}</span>
+    );
+  }
+}

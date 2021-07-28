@@ -1,5 +1,5 @@
-import React, {Component, CSSProperties, ReactNode} from 'react';
-import {PriorityLevel, Requirement, RequirementGroup, RequirementPlan} from './requirement_def';
+import React, {Component, ReactNode} from 'react';
+import {ReqPriority, Requirement, RequirementGroup, RequirementPlan} from './requirement_def';
 import {FileOutlined, MinusSquareOutlined, PlusSquareOutlined, RightOutlined, UpOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import * as _ from 'lodash';
@@ -68,19 +68,22 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
           const {expanded, title, key, groups, version} = plan;
           return (
             <div key={key} className='bottom-margin-sm'>
-              <div className='req-item' onClick={() => {
-                plan.expanded = !expanded;
-                this.setState({});
-              }}>
-                <span className='text-grey right-margin-sm'>
-                  {expanded ? (
-                    <MinusSquareOutlined/>
-                  ) : (
-                    <PlusSquareOutlined/>
-                  )}
-                </span>
-                <span className='req-tag right-margin-sm'>{version}</span>
-                <span className='right-margin'>{title}</span>
+              <div className='req-item'>
+                <Util.A className='plain-text'
+                        onClick={() => {
+                          plan.expanded = !expanded;
+                          this.setState({});
+                        }}>
+                  <span className='text-grey right-margin-sm'>
+                    {expanded ? (
+                      <MinusSquareOutlined/>
+                    ) : (
+                      <PlusSquareOutlined/>
+                    )}
+                  </span>
+                  <span className='req-tag right-margin-sm'>{version}</span>
+                  <span className='right-margin'>{title}</span>
+                </Util.A>
                 {!!renderPlanTools && renderPlanTools(plan)}
               </div>
               {!!expanded && !!groups && (
@@ -89,19 +92,21 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
                     const {key: gk, title: gt, expanded: ge, requirements} = group;
                     return (
                       <React.Fragment key={gk}>
-                        <div className='req-item'
-                             onClick={() => {
-                               group.expanded = !ge;
-                               this.setState({});
-                             }}>
-                          <span className='text-grey right-margin-sm'>
-                            {ge ? (
-                              <MinusSquareOutlined/>
-                            ) : (
-                              <PlusSquareOutlined/>
-                            )}
-                          </span>
-                          {gt}
+                        <div className='req-item'>
+                          <Util.A className='plain-text'
+                                  onClick={() => {
+                                    group.expanded = !ge;
+                                    this.setState({});
+                                  }}>
+                            <span className='text-grey right-margin-sm'>
+                              {ge ? (
+                                <MinusSquareOutlined/>
+                              ) : (
+                                <PlusSquareOutlined/>
+                              )}
+                            </span>
+                            {gt}
+                          </Util.A>
                         </div>
                         <div className='left-margin-lg'>
                           {!!ge && !!requirements && !!requirements.length && requirements.map(req => {
@@ -150,50 +155,6 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
     );
   }
 }
-
-
-interface ReqPriorityProps {
-  priority: PriorityLevel;
-  style?: CSSProperties;
-  className?: string;
-}
-
-interface ReqPriorityState {
-}
-
-export class ReqPriority extends Component<ReqPriorityProps, ReqPriorityState> {
-  constructor(props: ReqPriorityProps) {
-    super(props);
-  }
-
-  render() {
-    const {priority, className, style} = this.props;
-    let color: string;
-    let text: string;
-    switch (priority) {
-      case 1:
-        color = '#bb0000';
-        text = '①';
-        break;
-      case 2:
-        color = '#ecb000';
-        text = '②';
-        break;
-      case 3:
-        color = '#3399dd';
-        text = '③';
-        break;
-      default:
-        color = '#009f00';
-        text = '④';
-        break;
-    }
-    return (
-      <span style={_.assign({color: color}, style)} className={className}>{text}</span>
-    );
-  }
-}
-
 
 interface RequirementContentProps {
   requirement: Requirement;
