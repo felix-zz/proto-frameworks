@@ -263,7 +263,7 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
   }
 
   addComment(comment: ComponentComment) {
-    let {content, requirement} = this.getCommentContent(comment);
+    let {content, requirement} = this.getCommentContent(comment) || {};
     if (!content) {
       return;
     }
