@@ -137,7 +137,7 @@ class CommentContent extends React.Component<CommentContentProps, CommentContent
           <div style={maxHeight ? {maxHeight: maxHeight + 'px', overflowY: 'scroll'} : null}
                {...hoverOptions}>
             {content}
-            {!!requirement && (
+            {!!requirement?.group?.plan?.version && (
               <div className='top-margin-sm'>
                 <Link to={linkOfReq(requirement)}>
                   <BulbOutlined className='right-margin-xs'/>
