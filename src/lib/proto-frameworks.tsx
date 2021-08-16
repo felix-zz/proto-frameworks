@@ -17,8 +17,8 @@ import {RouteComponentProps} from 'react-router';
 import InnerModal from './components/inner_modal';
 import {StringMap} from './util/export';
 import {VersionInfo} from './components/version_def';
-import {RequirementPlan} from './components/requirement_def';
-import {linkOfReq, RequirementContent, RequirementPlanList} from './components/requirement_plan_list';
+import {linkOfReq, RequirementPlan} from './components/requirement_def';
+import {RequirementContent, RequirementPlanList} from './components/requirement_plan_list';
 
 let toggleSizingMode: (on?: boolean) => void = null;
 

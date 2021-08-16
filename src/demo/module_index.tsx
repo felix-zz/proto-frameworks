@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {ComponentComment} from '../lib/components/comment_def';
+import {createRequirement} from "../lib/components/requirement_def";
 
 interface DemoModuleIndexProps {
 }
@@ -8,21 +9,50 @@ interface DemoModuleIndexProps {
 interface DemoModuleIndexState {
 }
 
-class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexState> {
-    constructor(props: DemoModuleIndexProps) {
-        super(props);
-    }
+export const usingRequirementComments = createRequirement('reqComment', 'Using requirementComments.', 1, () => 'Hi.');
 
-    render() {
-        return (
-            <div>
-                <h1>Hello, World!</h1>
-                <ComponentComment comments={{v202106: 'This is a demo comment for your product'}}>
-                    <p>This the demo index for Proto Frameworks.</p>
-                </ComponentComment>
-            </div>
-        );
-    }
+class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexState> {
+  constructor(props: DemoModuleIndexProps) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, World!</h1>
+        <ComponentComment comments={{v202106: 'This is a demo comment for your product'}} position='left'>
+          <p>This the demo index for Proto Frameworks.</p>
+        </ComponentComment>
+        <p>
+          After Version 0.1.25, comments with requirement feature was released.
+          There is no need to use the deprecated <code>comments</code> property of ComponentComment and
+          specify a version for each comment content.
+          Instead, assign a comment to a requirement in <code>requirementComments</code> will be much more
+          pleasant, which allows you to migrate a requirement to another plan with a new version without
+          modify every single comment in the page!
+        </p>
+        <p>
+          <ComponentComment requirementComments={[{
+            requirement: usingRequirementComments,
+            content: 'This is a demo comment using requirementComments.',
+          }]}>
+            <strong>This is a demo comment using <code>requirementComments</code>.</strong>
+          </ComponentComment>
+        </p>
+        <p>
+          <ComponentComment plainContent={false} width={350} requirementComments={[{
+            requirement: usingRequirementComments,
+            content: (
+              <span>A comment without default <strong style={{color: '#900'}}>style</strong>.</span>
+            )
+          }]}>
+            <span>This is a comment without style. Set <code>plainContent</code> to false and <code>width</code> to
+              a preferred value.</span>
+          </ComponentComment>
+        </p>
+      </div>
+    );
+  }
 }
 
 export default DemoModuleIndex;

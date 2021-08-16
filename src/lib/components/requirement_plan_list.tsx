@@ -1,5 +1,5 @@
 import React, {Component, ReactNode} from 'react';
-import {ReqPriority, Requirement, RequirementGroup, RequirementPlan} from './requirement_def';
+import {linkOfReq, ReqPriority, Requirement, RequirementGroup, RequirementPlan} from './requirement_def';
 import {FileOutlined, MinusSquareOutlined, PlusSquareOutlined, RightOutlined, UpOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import * as _ from 'lodash';
@@ -27,10 +27,6 @@ interface RequirementPlanListProps {
 interface RequirementPlanListState {
   plans: PlanExt[];
 }
-
-export const linkOfReq = (req: Requirement) => (
-  '/__plan/' + req.group.plan.key + '/' + req.group.key + '/' + req.key
-)
 
 export class RequirementPlanList extends Component<RequirementPlanListProps, RequirementPlanListState> {
   constructor(props: RequirementPlanListProps) {

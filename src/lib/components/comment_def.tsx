@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component, DOMElement, ReactNode, ReactNodeArray} from 'react';
 import {StringMap} from '../util/export';
 import $ from 'jquery';
+import {Requirement} from "./requirement_def";
 
 export declare type CommentPosition = 'left' | 'right';
 
@@ -45,12 +46,13 @@ export class CommentAnchor extends React.Component<{}, {}> {
     }
 }
 
-export type CommentMap = StringMap<string | ReactNode | ReactNodeArray>;
+export type CommentMap = StringMap<ReactNode>;
 
 export interface CommentContentProps {
     position?: CommentPosition;
     elements?: DOMElement<any, any>[];
     content?: string | ReactNode;
+    requirement?: Requirement;
     width?: number | string;
     title?: string | ReactNode;
     maxHeight?: number;
@@ -58,9 +60,17 @@ export interface CommentContentProps {
     refreshLine?: () => void;
 }
 
+export interface CommentForRequirement {
+    requirement: Requirement;
+    content: ReactNode;
+    global?: boolean;
+}
+
 interface ComponentCommentProps extends CommentContentProps {
     uk?: string; // Make sure component comment shows up only once.
-    comments: CommentMap;
+    /** @Deprecated Use requirementComments instead. */
+    comments?: CommentMap;
+    requirementComments?: CommentForRequirement[];
     selector?: string;
 }
 

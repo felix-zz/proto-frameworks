@@ -85,3 +85,7 @@ export class ReqPriority extends Component<ReqPriorityProps, ReqPriorityState> {
     );
   }
 }
+
+export const linkOfReq = (req: Requirement) => (
+  '/__plan/' + req.group.plan.key + '/' + req.group.key + '/' + req.key
+)

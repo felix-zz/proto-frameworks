@@ -1,7 +1,7 @@
 import * as ReactDOM from 'react-dom';
 import {Component} from 'react';
 import '../lib/proto-frameworks.scss';
-import DemoModuleIndex from './module_index';
+import DemoModuleIndex, {usingRequirementComments} from './module_index';
 import DemoSubModule from './sub_module';
 import {Link} from 'react-router-dom';
 import {NodeIndexOutlined} from '@ant-design/icons';
@@ -87,14 +87,18 @@ const plans: RequirementPlan[] = [{
   groups: [{
     key: 'g1',
     title: 'Requirement Group 1',
-    requirements: [req1, req2, req3, req4],
+    requirements: [req1, req2, req3, usingRequirementComments],
   }],
 }, {
   key: 'p2',
   title: 'Other Plan',
   version: 'v202105',
   prototypeAddress: '',
-  groups: [],
+  groups: [{
+    key: 'g2',
+    title: 'Requirement Group 2',
+    requirements: [req4],
+  }],
 }];
 
 interface DemoIndexProps {
