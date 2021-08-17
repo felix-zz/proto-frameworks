@@ -10,7 +10,7 @@ import {
   PlusSquareOutlined,
   UnorderedListOutlined
 } from '@ant-design/icons';
-import {PageNavItem, PageNode} from './components/page_def';
+import {checkPageIsCurrent, PageNode} from './components/page_def';
 import {Util} from './util/util';
 import VersionContext from './components/versioned_comment';
 import {RouteComponentProps} from 'react-router';
@@ -162,7 +162,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
       const childPrefix = prefix + '/' + key;
       const currentRegexp = new RegExp('^' + childPrefix + '(/\\d+)?$');
       let childItems = this.renderSubMenu(childPages, childPrefix, depth + 1, currentHash);
-      const isCurrentVer = checkCurrent(page, currentVersion);
+      const isCurrentVer = checkPageIsCurrent(page, currentVersion);
       if (isCurrentVer || !versionRelated || childItems.length > 0) {
         const isCurrent = currentRegexp.test(currentHash);
         const toggleCollapsed = () => {
@@ -304,31 +304,6 @@ interface ProtoFrameworksProps extends FrameworkPropsBase {
 interface ProtoFrameworksState {
 }
 
-const checkCurrent = (page: PageNavItem, current: string, linkPageToReq?: boolean) => {
-  let isCurrent = false;
-  if (current === page.ver) {
-    if (!linkPageToReq) {
-      return true;
-    }
-    isCurrent = true;
-  }
-  _.each(page.requirements, req => {
-    if (req.plan.version === current) {
-      isCurrent = true;
-      if (!linkPageToReq) {
-        return false;
-      }
-      let pages: PageNavItem[] = req.pages;
-      if (!pages) {
-        pages = [];
-        req.pages = pages;
-      }
-      pages.push(page);
-    }
-  });
-  return isCurrent;
-}
-
 export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFrameworksState> {
   constructor(props: ProtoFrameworksProps) {
     super(props);
@@ -337,7 +312,7 @@ export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFramew
   }
 
   traversePage(page: PageNode): boolean {
-    let hasCurrent = checkCurrent(page, this.props.currentVersion, true);
+    let hasCurrent = checkPageIsCurrent(page, this.props.currentVersion, true);
     _.each(page.pages, p => {
       hasCurrent = this.traversePage(p) || hasCurrent;
     });
@@ -393,16 +368,19 @@ export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFramew
     if (element) {
       let navBar: ((index: number) => ReactNode) = null;
       if (nav && nav.items && nav.items.length) {
-        const {defaultTitle, items} = nav;
+        let {defaultTitle, items} = nav;
+        if (!checkPageIsCurrent(page, currentVersion, false, true)) {
+          defaultTitle += '（本期无变化）';
+        }
         navBar = (index: number): ReactNode => (
           <div className='proto-frameworks'>
             <span className='comment-border top-margin-sm bottom-margin-sm' style={{
               padding: '4px 8px', fontSize: '14px', display: 'inline-block',
             }}>
               <strong>该页面有多个状态，请查看：</strong>
-              {!index ? defaultTitle : <Link to={path}>{defaultTitle}</Link>}
+              {!index ? defaultTitle : (<Link to={path}>{defaultTitle}</Link>)}
               {items.map((item, i) => {
-                const title = checkCurrent(item, currentVersion) ? item.name : item.name + ' (本期无变化)';
+                const title = checkPageIsCurrent(item, currentVersion) ? item.name : item.name + ' (本期无变化)';
                 const navLink = path + '/' + i;
                 item.link = navLink;
                 return (
@@ -440,6 +418,7 @@ export class ProtoFrameworks extends Component<ProtoFrameworksProps, ProtoFramew
         <Route exact path={['/__plan']} render={this.renderPage(RequirementPlanList, null, {
           plans: requirementPlans,
           renderPlanTools,
+          currentVersion: this.props.currentVersion,
         })}/>
         {requirementPlans.map(plan => {
           const {key, groups} = plan;

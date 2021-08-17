@@ -4,6 +4,7 @@ import {FileOutlined, MinusSquareOutlined, PlusSquareOutlined, RightOutlined, Up
 import {Link} from 'react-router-dom';
 import * as _ from 'lodash';
 import {Util} from '../util/util';
+import {checkPageIsCurrent, PageNavItem, PageNode} from "./page_def";
 
 interface PlanExt extends RequirementPlan {
   expanded?: boolean;
@@ -20,6 +21,7 @@ interface ReqExt extends Requirement {
 }
 
 interface RequirementPlanListProps {
+  currentVersion: string;
   plans: RequirementPlan[];
   renderPlanTools?: (plan: RequirementPlan) => ReactNode;
 }
@@ -56,7 +58,7 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
 
   render() {
     const {plans} = this.state;
-    const {renderPlanTools} = this.props;
+    const {renderPlanTools, currentVersion} = this.props;
     return (
       <div className='proto-frameworks' style={{width: '900px'}}>
         <h2>需求计划列表</h2>
@@ -125,13 +127,49 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
                                   )}
                                 </div>
                                 {!!re && !!pages && pages.map(p => {
+                                  const node = p as PageNode;
+                                  const {link, name, nav} = node;
+                                  if (!nav || !nav.items || !nav.items.length) {
+                                    return (
+                                      <div key={link}
+                                           className='left-margin-lg req-item'>
+                                        <Link to={link}>
+                                          <FileOutlined className='text-grey'/>
+                                          {' '}{name}
+                                        </Link>
+                                      </div>
+                                    )
+                                  }
+                                  const temp: PageNavItem[] = [];
+                                  if (checkPageIsCurrent(p, currentVersion, false, true)) {
+                                    temp.push({link: link, name: nav.defaultTitle});
+                                  }
+                                  nav.items.forEach((item, i) => {
+                                    if (checkPageIsCurrent(item, currentVersion)) {
+                                      temp.push({link: link + '/' + i, name: item.name});
+                                    }
+                                  });
+                                  if (!temp.length) {
+                                    return null;
+                                  }
                                   return (
-                                    <div key={p.link}
+                                    <div key={link}
                                          className='left-margin-lg req-item'>
-                                      <Link to={p.link}>
+                                      <Link to={temp[0].link}>
                                         <FileOutlined className='text-grey'/>
-                                        {' '}{p.name}
+                                        {' '}{name}{': ' + temp[0].name}
                                       </Link>
+                                      {temp.map((t, i) => {
+                                        if (i === 0) {
+                                          return null;
+                                        }
+                                        return (
+                                          <React.Fragment key={i}>
+                                            {' | '}
+                                            <Link to={t.link}>{t.name}</Link>
+                                          </React.Fragment>
+                                        )
+                                      })}
                                     </div>
                                   )
                                 })}

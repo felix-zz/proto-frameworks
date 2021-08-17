@@ -52,7 +52,6 @@ const pageTree = {
         pages: {
           sub: {
             name: 'Sub Module: Multi Stages',
-            requirements: [req1],
             element: DemoSubModule,
             nav: {
               defaultTitle: 'Default Stage',
@@ -60,11 +59,11 @@ const pageTree = {
                 name: 'Stage 1',
                 element: DemoSubModule,
                 props: {stage: 1},
+                requirements: [req1],
               }, {
                 name: 'Stage 2',
                 element: DemoSubModule,
                 props: {stage: 2},
-                ver: 'v202106',
               }]
             }
           },
