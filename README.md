@@ -36,6 +36,10 @@ JavaScript 基础，React，以及一定的打包构建知识）
 万物起源：```demo/index.tsx```，在页面中渲染一个 ```<ProtoFrameworks/>```
 组件即可。
 
+> 还要引入框架的样式表：
+> 
+> ```import 'proto-frameworks/lib/proto-frameworks.css';```
+
 ### ProtoFrameworks 入口组件属性说明
 
 * pageTree，必填，包含原型中所有的页面，由多个产品（Product）组成一棵页面树。
