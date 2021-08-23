@@ -8,6 +8,8 @@ import {NodeIndexOutlined} from '@ant-design/icons';
 import DemoMobileRem from './mobile_rem_style';
 import {ProtoFrameworks} from '../lib/proto-frameworks';
 import {createRequirement, Requirement, RequirementPlan} from '../lib/components/requirement_def';
+import {StringMap} from "../lib/util/string_map";
+import {PageNode} from "../lib/components/page_def";
 
 interface DemoFrameworkIndexProps {
 }
@@ -40,7 +42,7 @@ const req2 = createRequirement('r2', 'Req 2', 2, () => 'This is req2');
 const req3 = createRequirement('r3', 'Req 3', 3, () => 'This is req3');
 const req4 = createRequirement('r4', 'Req 4', 4, () => 'This is req4');
 
-const pageTree = {
+const pageTree: StringMap<PageNode> = {
   demo: {
     name: 'Demo Product',
     ver: 'v202106',

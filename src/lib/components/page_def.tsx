@@ -41,6 +41,18 @@ class PageNodeBuilder {
     return this;
   }
 
+  withRequirements(requirements: Requirement | Requirement[]) {
+    if (Array.isArray(requirements)) {
+      this.node.requirements = requirements;
+    } else {
+      this.node.requirements = [requirements];
+    }
+  }
+
+  /**
+   * @deprecated
+   * @param ver
+   */
   withVersion(ver: string): PageNodeBuilder {
     this.node.ver = ver;
     return this;
