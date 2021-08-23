@@ -129,7 +129,7 @@ export const fooRequirement1: Requirement = {
   priority: 1, // 需求等级，我们定义出 1~4 四个等级，1 为最高优先级需求，4 为最低
   renderContent: () => (
     <Markdown md='# 需求标题\n\n 需求内容'/>
-  ), // 渲染需求描述的类型，可以使用框架自带的 Markdown 组件，使用 Markdown 预发撰写需求
+  ), // 渲染需求描述的类型，可以使用框架自带的 Markdown 组件，使用 Markdown 语法撰写需求
 };
 ```
 
