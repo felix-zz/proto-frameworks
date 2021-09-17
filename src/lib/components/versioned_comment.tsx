@@ -6,7 +6,7 @@ import {StyleInfoPanel, validHtmlTags} from './sizing';
 import {Util} from '../util/util';
 import {BulbOutlined, CloseOutlined} from '@ant-design/icons';
 import {StringMap} from '../util/export';
-import {CommentContentProps, CommentContext, ComponentComment} from './comment_def';
+import {CommentContentProps, CommentContext, ComponentComment, ICommentContext} from './comment_def';
 import moment from 'moment';
 import {linkOfReq, ReqPriority, Requirement} from "./requirement_def";
 import {Link} from "react-router-dom";
@@ -217,7 +217,7 @@ interface VersionContextProps {
   sizeMode?: boolean;
 }
 
-class VersionContext extends Component<VersionContextProps, VersionContextState> {
+class VersionContext extends Component<VersionContextProps, VersionContextState> implements ICommentContext {
   ukMap: StringMap<boolean>;
   comments: CommentContentProps[];
   contentContainer: HTMLElement;

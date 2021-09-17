@@ -10,6 +10,7 @@ import {ProtoFrameworks} from '../lib/proto-frameworks';
 import {createRequirement, Requirement, RequirementPlan} from '../lib/components/requirement_def';
 import {StringMap} from "../lib/util/string_map";
 import {PageNode} from "../lib/components/page_def";
+import {CommentScopeDemo} from "./comment_scope_demo";
 
 interface DemoFrameworkIndexProps {
 }
@@ -75,6 +76,11 @@ const pageTree: StringMap<PageNode> = {
             element: DemoMobileRem,
           }
         }
+      },
+      commentWithScopeDemo: {
+        name: 'Scoped Comment Demo',
+        ver: 'v202106',
+        element: CommentScopeDemo,
       }
     }
   }
