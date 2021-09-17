@@ -37,7 +37,7 @@ JavaScript 基础，React，以及一定的打包构建知识）
 组件即可。
 
 > 还要引入框架的样式表：
-> 
+>
 > ```import 'proto-frameworks/lib/proto-frameworks.css';```
 
 ### ProtoFrameworks 入口组件属性说明
@@ -271,6 +271,44 @@ class BarParentComponent {
     )
   }
 }
+```
+
+#### 带作用域的注释
+
+> 需要 0.1.28 及更高版本
+
+可选属性 `scope` 可以用于限定注释的显示时机，当一个组件内部的注释只想在一个特定上下文中
+进行展示的时候，可以利用这个属性实现。
+
+当 `scope` 设置了某个字符串后，比如设置了 `"foo-scope"`
+，这个注释只会在 `<EnableCommentScope scope="foo-scope">`
+的上下文中显示出来，比如：
+
+```jsx
+<div>
+  <EnableCommentScope scope='foo-scope'>
+    <ComponentComment scope='foo-scope'>
+      <span>This comment will show.</span>
+    </ComponentComment>
+    <ComponentComment scope='bar-scope'>
+      <span>This comment won't show.</span>
+    </ComponentComment>
+    <EnableCommentScope scope='bar-scope'>
+      <ComponentComment scope='bar-scope'>
+        <span>This comment will show.</span>
+      </ComponentComment>
+    </EnableCommentScope>
+    <ComponentComment>
+      <span>
+        This comment will show because is doesn't have a
+        scope limit.
+      </span>
+    </ComponentComment>
+  </EnableCommentScope>
+  <ComponentComment scope='foo-scope'>
+    <span>This comment won't show.</span>
+  </ComponentComment>
+</div>
 ```
 
 #### ```ComponentComment``` 的其他属性
