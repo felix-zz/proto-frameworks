@@ -50,6 +50,13 @@ class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexSta
               a preferred value.</span>
           </ComponentComment>
         </p>
+        <ComponentComment position='left' disableCover={true} comments={{
+          v202106: 'A comment without a hotspot cover.'
+        }}>
+          <p>
+            This is a comment without a hotspot cover. Set <code>disableCover</code> to <code>true</code>.
+          </p>
+        </ComponentComment>
       </div>
     );
   }

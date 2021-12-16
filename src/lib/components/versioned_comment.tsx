@@ -94,7 +94,7 @@ class CommentContent extends React.Component<CommentContentProps, CommentContent
   }
 
   render() {
-    const {content, width, title, maxHeight, position, plainContent, requirement} = this.props;
+    const {content, width, title, maxHeight, position, plainContent, requirement, disableCover} = this.props;
     const {source, targets, active, stickers} = this.state;
     let lineStyles: CSSProperties[] = null;
     if (source) {
@@ -150,7 +150,7 @@ class CommentContent extends React.Component<CommentContentProps, CommentContent
             <Util.A key={i} className={'comment-border-bottom' + activeSuffix}
                     style={lineStyle} {...hoverOptions}/>
           ))}
-          {!!targets && targets.map((target, i) => {
+          {!!targets && !disableCover && targets.map((target, i) => {
             return (
               <React.Fragment key={i}>
                 <Util.A

@@ -317,6 +317,9 @@ class BarParentComponent {
 * plainContent，选填，默认为 true，表示注释内容是否为普通的文本，默认状态下，注释以默认的宽度
   和默认的样式出现，当此属性为 false 时，注释内容将不再带默认的边框、底色和字体颜色，```content```
   属性可以填充一个任意的 ```ReactNode```，放入任何富文本注释内容
+* disableCover，默认情况下每个被注释的组件上都会有一个鼠标热区，响应 Hover 和点击事件来展示注释，
+  如果不想要让个热区阻挡了组件本身的一些动作，可以将这个属性设置为 true，禁用热区
+  > Since 0.1.29
 * maxHeight，避免注释过高，引入滚动条展示
 * comments，不建议使用，类型是 Map<string, ReactNode>，Key 是版本号，Value
   是注释的内容， 可以不关联需求直接写注释和它对应的版本号，简单场景还可以应对，但如果一个需求因为某些

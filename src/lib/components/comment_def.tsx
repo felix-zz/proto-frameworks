@@ -118,6 +118,7 @@ export interface CommentContentProps {
   maxHeight?: number;
   plainContent?: boolean;
   refreshLine?: () => void;
+  disableCover?: boolean;
 }
 
 export interface CommentForRequirement {
