@@ -21,7 +21,10 @@ class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexSta
     return (
       <div>
         <h1>Hello, World!</h1>
-        <ComponentComment comments={{v202106: 'This is a demo comment for your product'}} position='left'>
+        <ComponentComment comments={{
+          v202106: 'This is a demo comment for your product',
+          v202105: 'This is an expired comment.',
+        }} position='left'>
           <p>This the demo index for Proto Frameworks.</p>
         </ComponentComment>
         <p>

@@ -254,9 +254,18 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
       });
     }
     if (comments) {
-      let content = comments[currentVersion] || comments.global || !versionRelatedComment;
-      if (content) {
-        result.push({content, requirement: null});
+      if (!versionRelatedComment) {
+        _.each(comments, content => {
+          result.push({content, requirement: null});
+        });
+      } else {
+        let currentVersionedContent = comments[currentVersion];
+        if (currentVersionedContent) {
+          result.push({content: currentVersionedContent, requirement: null});
+        }
+        if (comments.global) {
+          result.push({content: comments.global, requirement: null});
+        }
       }
     }
     return result;
