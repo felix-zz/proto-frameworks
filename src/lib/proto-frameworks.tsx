@@ -44,6 +44,7 @@ interface FrameworkProps extends RouteComponentProps, FrameworkPropsBase {
 
 interface FrameworkState {
   versionRelated: boolean;
+  versionRelatedComment: boolean;
   sidebarHidden: boolean;
   sizeMode: boolean;
   filteredVersions?: VersionInfo[];
@@ -56,6 +57,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
     super(props);
     this.state = {
       versionRelated: sessionStorage.getItem('versionRelated') !== 'false',
+      versionRelatedComment: sessionStorage.getItem('versionRelatedComment') !== 'false',
       sidebarHidden: sessionStorage.getItem('sidebarHidden') === 'true',
       sizeMode: sessionStorage.getItem('sizeMode') === 'true',
       historyVisible: false,
@@ -201,7 +203,7 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
   }
 
   render() {
-    const {versionRelated, sidebarHidden, sizeMode} = this.state;
+    const {versionRelated, versionRelatedComment, sidebarHidden, sizeMode} = this.state;
     const {pageTree, currentVersion, titleToolbar} = this.props;
     let currentProduct = this.getCurrentProduct();
     const products: ReactNode[] = [];
@@ -251,13 +253,24 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
                    onChange={e => this.toggleSizingMode(!!e.target.checked)}/>
             度量模式{' ⇧E'}
           </label>
-          <label className='left-margin'>
+          <span className='left-margin'>只显示{' '}{currentVersion}{' '}相关：</span>
+          <label>
             <input type='checkbox' checked={versionRelated}
                    onChange={e => {
-                     sessionStorage.setItem('versionRelated', e.target.checked.toString());
-                     this.setState({versionRelated: e.target.checked});
+                     const checked = !!e.target.checked;
+                     sessionStorage.setItem('versionRelated', checked.toString());
+                     this.setState({versionRelated: checked});
                    }}/>
-            只显示{' ' + currentVersion + ' '}相关页面
+            页面
+          </label>
+          <label className='left-margin-xs'>
+            <input type='checkbox' checked={versionRelatedComment}
+                   onChange={e => {
+                     const checked = !!e.target.checked;
+                     sessionStorage.setItem('versionRelatedComment', checked.toString());
+                     this.setState({versionRelatedComment: checked});
+                   }}/>
+            注释
           </label>
           <Link to='/__plan' className='left-margin'><BulbOutlined className='right-margin-xs'/>本期需求</Link>
           {this.renderVersionHistory()}
@@ -268,9 +281,11 @@ class Framework extends Component<FrameworkProps, FrameworkState> {
             {this.renderSubMenu(curProduct.pages, '/' + currentProduct, 0, currentHash)}
           </div>
         )}
-        <div className={'proto-frameworks-body ' + (sidebarHidden ? 'sidebar-hidden' : '')}>
+        <div key={versionRelatedComment.toString()}
+             className={'proto-frameworks-body ' + (sidebarHidden ? 'sidebar-hidden' : '')}>
           {this.props.navBar || null}
-          <VersionContext sizeMode={sizeMode} currentVersion={currentVersion}>
+          <VersionContext sizeMode={sizeMode} currentVersion={currentVersion}
+                          versionRelatedComment={versionRelatedComment}>
             {this.props.children}
           </VersionContext>
         </div>

@@ -215,6 +215,12 @@ interface VersionContextState {
 interface VersionContextProps {
   currentVersion: string;
   sizeMode?: boolean;
+  versionRelatedComment: boolean;
+}
+
+interface CommentContentDef {
+  content: ReactNode;
+  requirement: Requirement;
 }
 
 class VersionContext extends Component<VersionContextProps, VersionContextState> implements ICommentContext {
@@ -236,35 +242,29 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
     this.debouncedUpdateHoverActions = _.debounce(this.updateAllElementsSizeHoverAction.bind(this), 100);
   }
 
-  getCommentContent(comment: ComponentComment): { content: ReactNode, requirement: Requirement } {
-    const {currentVersion} = this.props;
+  getCommentContent(comment: ComponentComment): CommentContentDef[] {
+    const {currentVersion, versionRelatedComment} = this.props;
     const {comments, requirementComments} = comment.props;
+    const result: CommentContentDef[] = [];
     if (requirementComments) {
-      let content: ReactNode = null;
-      let requirement: Requirement = null;
       _.each(requirementComments, comment => {
-        if (comment.global || comment.requirement?.plan?.version === currentVersion) {
-          content = comment.content;
-          requirement = comment.requirement;
-          return false;
+        if (!versionRelatedComment || comment.global || comment.requirement?.plan?.version === currentVersion) {
+          result.push({content: comment.content, requirement: comment.requirement});
         }
       });
-      if (content) {
-        return {content, requirement};
-      }
     }
     if (comments) {
-      let content = comments[currentVersion] || comments.global;
+      let content = comments[currentVersion] || comments.global || !versionRelatedComment;
       if (content) {
-        return {content, requirement: null};
+        result.push({content, requirement: null});
       }
     }
-    return null;
+    return result;
   }
 
   addComment(comment: ComponentComment) {
-    let {content, requirement} = this.getCommentContent(comment) || {};
-    if (!content) {
+    let contents = this.getCommentContent(comment);
+    if (!contents || !contents.length) {
       return;
     }
     const {elements} = comment;
@@ -279,9 +279,11 @@ class VersionContext extends Component<VersionContextProps, VersionContextState>
       }
       ukMap[uk] = true;
     }
-    this.comments.push(_.assign({}, comment.props, {
-      elements, content, requirement,
-    }));
+    contents.forEach(content => {
+      this.comments.push(_.assign({}, comment.props, {
+        elements, content: content.content, requirement: content.requirement,
+      }));
+    });
   }
 
   componentDidMount() {

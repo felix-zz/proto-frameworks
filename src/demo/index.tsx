@@ -1,7 +1,7 @@
 import * as ReactDOM from 'react-dom';
 import {Component} from 'react';
 import '../lib/proto-frameworks.scss';
-import DemoModuleIndex, {usingRequirementComments} from './module_index';
+import DemoModuleIndex, {multipleReqDemo, usingRequirementComments} from './module_index';
 import DemoSubModule from './sub_module';
 import {Link} from 'react-router-dom';
 import {NodeIndexOutlined} from '@ant-design/icons';
@@ -11,6 +11,7 @@ import {createRequirement, Requirement, RequirementPlan} from '../lib/components
 import {StringMap} from "../lib/util/string_map";
 import {PageNode} from "../lib/components/page_def";
 import {CommentScopeDemo} from "./comment_scope_demo";
+import {ExpiredPageDemo, expiredRequirementDemo} from './expired_page_demo';
 
 interface DemoFrameworkIndexProps {
 }
@@ -81,6 +82,9 @@ const pageTree: StringMap<PageNode> = {
         name: 'Scoped Comment Demo',
         ver: 'v202106',
         element: CommentScopeDemo,
+      },
+      expiredDemo: {
+        name: 'Expired Page Demo', requirements: [expiredRequirementDemo], element: ExpiredPageDemo,
       }
     }
   }
@@ -94,7 +98,7 @@ const plans: RequirementPlan[] = [{
   groups: [{
     key: 'g1',
     title: 'Requirement Group 1',
-    requirements: [req1, req2, req3, usingRequirementComments],
+    requirements: [req1, req2, req3, usingRequirementComments, multipleReqDemo],
   }],
 }, {
   key: 'p2',
@@ -104,7 +108,7 @@ const plans: RequirementPlan[] = [{
   groups: [{
     key: 'g2',
     title: 'Requirement Group 2',
-    requirements: [req4],
+    requirements: [expiredRequirementDemo, req4],
   }],
 }];
 

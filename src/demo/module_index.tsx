@@ -10,6 +10,7 @@ interface DemoModuleIndexState {
 }
 
 export const usingRequirementComments = createRequirement('reqComment', 'Using requirementComments.', 1, () => 'Hi.');
+export const multipleReqDemo = createRequirement('multipleReqDemo', 'Multiple requirements for one element demo.', 3, () => 'Hi.');
 
 class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexState> {
   constructor(props: DemoModuleIndexProps) {
@@ -35,6 +36,9 @@ class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexSta
           <ComponentComment requirementComments={[{
             requirement: usingRequirementComments,
             content: 'This is a demo comment using requirementComments.',
+          }, {
+            requirement: multipleReqDemo,
+            content: 'Another requirement for this element.',
           }]}>
             <strong>This is a demo comment using <code>requirementComments</code>.</strong>
           </ComponentComment>
