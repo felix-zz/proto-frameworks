@@ -11,6 +11,7 @@ interface DemoModuleIndexState {
 
 export const usingRequirementComments = createRequirement('reqComment', 'Using requirementComments.', 1, () => 'Hi.');
 export const multipleReqDemo = createRequirement('multipleReqDemo', 'Multiple requirements for one element demo.', 3, () => 'Hi.');
+export const externalLinkReqDemo = createRequirement('external', 'External content link demo.', 2, 'https://www.google.com');
 
 class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexState> {
   constructor(props: DemoModuleIndexProps) {
@@ -62,6 +63,14 @@ class DemoModuleIndex extends Component<DemoModuleIndexProps, DemoModuleIndexSta
         }}>
           <p>
             This is a comment without a hotspot cover. Set <code>disableCover</code> to <code>true</code>.
+          </p>
+        </ComponentComment>
+        <ComponentComment requirementComments={[{
+          requirement: externalLinkReqDemo, content: 'Requirement content is in an external link.'
+        }]}>
+          <p>
+            If a requirement documentation is in a separated system with an external link,
+            you can set <code>renderContent</code> property of the Requirement with a link string.
           </p>
         </ComponentComment>
       </div>

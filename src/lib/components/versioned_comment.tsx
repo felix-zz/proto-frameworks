@@ -8,7 +8,7 @@ import {BulbOutlined, CloseOutlined} from '@ant-design/icons';
 import {StringMap} from '../util/export';
 import {CommentContentProps, CommentContext, ComponentComment, ICommentContext} from './comment_def';
 import moment from 'moment';
-import {linkOfReq, ReqPriority, Requirement} from "./requirement_def";
+import {linkOfReq, ReqPriority, Requirement, RequirementContentLink} from "./requirement_def";
 import {Link} from "react-router-dom";
 
 let pageComments: CommentContent[] = [];
@@ -139,10 +139,17 @@ class CommentContent extends React.Component<CommentContentProps, CommentContent
             {content}
             {!!requirement?.group?.plan?.version && (
               <div className='top-margin-sm'>
-                <Link to={linkOfReq(requirement)}>
-                  <BulbOutlined className='right-margin-xs'/>
-                  需求：<ReqPriority priority={requirement.priority} className='right-margin-xs'/>{requirement.title}
-                </Link>
+                {typeof requirement.renderContent === 'function' ? (
+                  <Link to={linkOfReq(requirement)}>
+                    <BulbOutlined className='right-margin-xs'/>
+                    需求：<ReqPriority priority={requirement.priority} className='right-margin-xs'/>{requirement.title}
+                  </Link>
+                ) : (
+                  <a href={requirement.renderContent as RequirementContentLink} target='_blank'>
+                    <BulbOutlined className='right-margin-xs'/>
+                    需求：<ReqPriority priority={requirement.priority} className='right-margin-xs'/>{requirement.title}
+                  </a>
+                )}
               </div>
             )}
           </div>

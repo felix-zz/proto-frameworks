@@ -1,5 +1,12 @@
 import React, {Component, ReactNode} from 'react';
-import {linkOfReq, ReqPriority, Requirement, RequirementGroup, RequirementPlan} from './requirement_def';
+import {
+  linkOfReq,
+  ReqPriority,
+  Requirement,
+  RequirementContentLink,
+  RequirementGroup,
+  RequirementPlan
+} from './requirement_def';
 import {FileOutlined, MinusSquareOutlined, PlusSquareOutlined, RightOutlined, UpOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import * as _ from 'lodash';
@@ -112,10 +119,17 @@ export class RequirementPlanList extends Component<RequirementPlanListProps, Req
                             return (
                               <React.Fragment key={req.key}>
                                 <div className='req-item'>
-                                  <Link to={linkOfReq(req)}>
-                                    <ReqPriority className='req-priority' priority={req.priority}/>
-                                    {' '}{req.title}
-                                  </Link>
+                                  {typeof req.renderContent === 'function' ? (
+                                    <Link to={linkOfReq(req)}>
+                                      <ReqPriority className='req-priority' priority={req.priority}/>
+                                      {' '}{req.title}
+                                    </Link>
+                                  ) : (
+                                    <a href={req.renderContent as RequirementContentLink} target='_blank'>
+                                      <ReqPriority className='req-priority' priority={req.priority}/>
+                                      {' '}{req.title}
+                                    </a>
+                                  )}
                                   {!!pages && !!pages.length && (
                                     <Util.A className='left-margin' onClick={() => {
                                       req.expanded = !re;
@@ -204,6 +218,7 @@ export class RequirementContent extends Component<RequirementContentProps, Requi
 
   render() {
     const {requirement} = this.props;
+    const renderContent = requirement.renderContent;
     return (
       <div>
         <div className='proto-frameworks proto-requirement'>
@@ -225,7 +240,9 @@ export class RequirementContent extends Component<RequirementContentProps, Requi
             </div>
           </div>
         </div>
-        {requirement.renderContent()}
+        {typeof renderContent === 'function' ? renderContent() : (
+          <a href={renderContent as string} target='_blank'>点击查看需求内容</a>
+        )}
       </div>
     );
   }

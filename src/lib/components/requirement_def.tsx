@@ -11,12 +11,13 @@ export interface RequirementGroup {
 }
 
 export type PriorityLevel = 1 | 2 | 3 | 4;
+export type RequirementContentLink = string;
 
 export interface Requirement {
   key: string;
   title: string;
   priority: PriorityLevel;
-  renderContent: () => ReactNode;
+  renderContent: (() => ReactNode) | RequirementContentLink;
   group?: RequirementGroup;
   plan?: RequirementPlan;
   pages?: PageNavItem[];
@@ -31,7 +32,7 @@ export interface RequirementPlan {
 }
 
 export const createRequirement =
-  (key: string, title: string, priority: PriorityLevel, renderContent: () => ReactNode): Requirement => ({
+  (key: string, title: string, priority: PriorityLevel, renderContent: (() => ReactNode) | RequirementContentLink): Requirement => ({
     key, title, priority, renderContent,
   });
 
