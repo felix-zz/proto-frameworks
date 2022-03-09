@@ -127,7 +127,11 @@ export interface CommentForRequirement {
   global?: boolean;
 }
 
-interface ComponentCommentProps extends CommentContentProps {
+export const commentForReq = (requirement: Requirement, content: ReactNode, global?: boolean): CommentForRequirement => ({
+  requirement, content, global,
+});
+
+export interface ComponentCommentProps extends CommentContentProps {
   uk?: string; // Make sure component comment shows up only once.
   /** @Deprecated Use requirementComments instead. */
   comments?: CommentMap;

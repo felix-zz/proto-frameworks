@@ -317,6 +317,10 @@ html, body {
     color: $proto-fw-text-color-secondary;
   }
 
+  .line-wrap {
+    white-space: pre-wrap;
+  }
+
   .status-table {
     width: 100%;
 

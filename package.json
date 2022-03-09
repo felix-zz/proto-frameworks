@@ -1,6 +1,6 @@
 {
   "name": "proto-frameworks",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "private": false,
   "main": "index.js",
   "typings": "index.d.ts",
