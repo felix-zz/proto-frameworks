@@ -401,3 +401,33 @@ html, body {
     }
   }
 }
+
+.proto-frameworks-placeholder {
+  $ph-color: #666;
+  $ph-border: 1px dashed lighten($ph-color, 35%);
+  $ph-bg: lighten($ph-color, 56%);
+  border: $ph-border;
+  background-color: $ph-bg;
+  position: relative;
+  padding: 25px;
+  text-align: center;
+  overflow: hidden;
+
+  .ph-line {
+    height: 0;
+    left: 0;
+    position: absolute;
+    border-bottom: $ph-border;
+    z-index: 100;
+  }
+
+  .ph-content {
+    position: relative;
+    z-index: 110;
+    color: $ph-color;
+    display: inline-block;
+    text-align: left;
+    background-color: $ph-bg;
+    padding: 5px;
+  }
+}

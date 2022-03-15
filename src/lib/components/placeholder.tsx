@@ -50,7 +50,7 @@ export class Placeholder extends Component<HTMLAttributes<HTMLDivElement>, Place
             );
         }
         return (
-            <div className={'module-placeholder ' + (className || '')} style={style} ref={ref => this.container = ref}>
+            <div className={'proto-frameworks-placeholder ' + (className || '')} style={style} ref={ref => this.container = ref}>
                 <span className='ph-content'>
                     {children}
                 </span>
