@@ -120,7 +120,7 @@ export const checkPageIsCurrent = (page: PageNavItem, current: string, linkPageT
     return pages;
   }
   _.each(page.requirements, req => {
-    if (req.plan.version === current) {
+    if (req?.plan?.version === current) {
       isCurrent = true;
       if (!linkPageToReq) {
         return false;
@@ -133,7 +133,7 @@ export const checkPageIsCurrent = (page: PageNavItem, current: string, linkPageT
     if (nav && !ignoreNav) {
       _.each(nav.items, navItem => {
         _.each(navItem.requirements, navReq => {
-          if (navReq.plan?.version === current) {
+          if (navReq?.plan?.version === current) {
             isCurrent = true;
             if (!linkPageToReq) {
               return false;
